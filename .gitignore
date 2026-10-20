@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+private/
+backups/
+*credentials*
+*password*
+*.pem
+*.key
+*discovery.json
