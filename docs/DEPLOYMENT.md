@@ -49,3 +49,7 @@ The seven approved local Synology groups were created and verified (`synogroup -
 | 2 | CompanyShared | grp_companyshared | Created; share ACL read back |
 
 **Not yet accepted:** independent readback of all share paths and effective access; actual SMB login and cross-department denial using two test users; staff email roster/membership approval and account provisioning; Recycle Bin and hide-unreadable settings (Executive showed both off); full disk-check completion; firewall/MFA; versioned independent backup and restore; Tailscale; SharePoint sync; dashboard deployments; old Admin-PC Z: cutover. Do not mark this project production-ready. Staff/credential details and actual device configuration evidence belong only in restricted Drive.
+
+### Phase 05.7 verification — Spencer's NAS terminal output (21 October 2026)
+
+Independent readback of all seven shares with `synoshare --get` and `synoshare --list_acl` confirmed the approved Volume 1/2 locations, SMB `WinShare=yes`, and the expected per-department Read/Write ACL plus administrator entries. **Configuration verification passed; end-user authorization testing has NOT passed yet.** All seven shares currently report `RecycleBin=no`, `RecycleBinAdminOnly=no`, and `HideUnreadable=no`. These remain to configure using supported DSM controls before production. The CLI help inspected does not document flags for those toggles. Full disk checks, firewall/MFA, independent backup/restore, staff enrollment, Tailscale, and M365 synchronization remain open.
