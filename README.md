@@ -1,6 +1,6 @@
 # PhilexcelHUB — Axon IT project
 
-**Status: planning/starter scripts only, not deployed.**
+**Status: NAS shares and named staff accounts configured; representative Windows RW/isolation tests passed. Remote access, cloud sync and authenticated dashboards remain pending. Not production-ready.**
 
 ## Exactly three dashboards
 - **Axon IT:** technical NAS management, secure support, cloud sync, backup, audit.
@@ -34,3 +34,10 @@ NAS setup reference: hostname PHILEXCEL-HUB; detailed private parameters remain 
 
 ## NAS commissioning reference
 See [NAS setup, ports, storage allocation and verified commands](docs/NAS-HANDOVER-2026-10-21.md). Actual onsite network parameters and the current commissioning checklist are in the [restricted Google Drive configuration register](https://docs.google.com/document/d/1sl62oz4k16-TaB0ieEfKYXCMGKrt-vidcTIKR-CjX4E/edit). Treat prior hostname/account entries as historical after the approved factory reset.
+
+
+## Latest checkpoint — 22 October 2026
+
+See the [current commissioning checkpoint](docs/NAS-HANDOVER-2026-10-21.md#current-checkpoint--22-october-2026-amit-guided-terminal-evidence). Seven professional department/resource group names are in use; 19 named staff accounts receive their own department RW and Company Shared RW. Two representative Windows pilots passed own/shared RW and other-department denial. Every share has a separate Recycle Bin; admin must be able to view all bins, subject to remaining restore UAT.
+
+Next requested order: secure Axon Tailscale access, dedicated Hub identity and tested two-way Synology Cloud Sync, then the three authenticated dashboard roles. Department AI stays Phase 2 Coming Soon. Full backup/security/handover checks remain open. See [dashboard requirements](docs/DASHBOARD.md).
