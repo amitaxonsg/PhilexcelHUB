@@ -31,3 +31,6 @@ See docs/DEPLOYMENT.md, docs/DASHBOARD.md and scripts/.
 - **Never publish unverified status:** A public GitHub Pages preview is not an authenticated production NAS administration tool. Phase 1 and Phase 2 features must be labeled accurately, with unresolved work and defects visible.
 
 NAS setup reference: hostname PHILEXCEL-HUB; detailed private parameters remain in the restricted setup register.
+
+## NAS commissioning reference
+See [NAS setup, ports, storage allocation and verified commands](docs/NAS-HANDOVER-2026-10-21.md). Actual onsite network parameters and the current commissioning checklist are in the [restricted Google Drive configuration register](https://docs.google.com/document/d/1sl62oz4k16-TaB0ieEfKYXCMGKrt-vidcTIKR-CjX4E/edit). Treat prior hostname/account entries as historical after the approved factory reset.
