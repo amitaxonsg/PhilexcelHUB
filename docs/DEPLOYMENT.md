@@ -52,4 +52,13 @@ The seven approved local Synology groups were created and verified (`synogroup -
 
 ### Phase 05.7 verification — Spencer's NAS terminal output (21 October 2026)
 
-Independent readback of all seven shares with `synoshare --get` and `synoshare --list_acl` confirmed the approved Volume 1/2 locations, SMB `WinShare=yes`, and the expected per-department Read/Write ACL plus administrator entries. **Configuration verification passed; end-user authorization testing has NOT passed yet.** All seven shares currently report `RecycleBin=no`, `RecycleBinAdminOnly=no`, and `HideUnreadable=no`. These remain to configure using supported DSM controls before production. The CLI help inspected does not document flags for those toggles. Full disk checks, firewall/MFA, independent backup/restore, staff enrollment, Tailscale, and M365 synchronization remain open.
+Independent readback of all seven shares with `synoshare --get` and `synoshare --list_acl` confirmed the approved Volume 1/2 locations, SMB `WinShare=yes`, and the expected per-department Read/Write ACL plus administrator entries. **Configuration verification passed; end-user authorization testing has NOT passed yet.** All seven shares currently report `RecycleBin=no`, `RecycleBinAdminOnly=no`, and `HideUnreadable=no`. Amit subsequently approved enabling a separate Recycle Bin for every share and explicitly keeping HideUnreadable disabled. RecycleBinAdminOnly access policy has not been decided. Apply via supported DSM controls and verify, rather than assuming flags for these toggles. Full disk checks, firewall/MFA, independent backup/restore, staff enrollment, Tailscale, and M365 synchronization remain open.
+
+### Phase 05.8 — Approved Recycle Bin and visibility policy (Amit instruction relayed by Spencer, 21 October 2026)
+
+- Enable **Recycle Bin = yes** independently for each of the seven shares: `Executive`, `AdminHR`, `FinancePurchasing`, `Marketing`, `AdminMarketing`, `Engineering`, and `CompanyShared`. Each share has its own Synology `#recycle` folder; do not create a single company-wide bin.
+- Keep **Hide unreadable subfolders and files = no** for all shares. This is explicitly approved, and is **not** permission to broaden access. Maintain per-department ACL isolation and test denied access for unauthorized users.
+- **Recycle Bin administrator-only restriction:** not specified in this instruction; obtain a separate decision on who may view/restore deleted items. Do not silently set it to yes.
+- Use supported DSM controls and verify with `sudo synoshare --get SHARE`; target `RecycleBin=yes` and `HideUnreadable=no`. The current CLI help did not document these controls.
+- Retention/auto-empty schedule, staff recovery permissions and restore UAT remain to be approved/tested. Recycle Bin is not an independent backup.
+- **Status:** approval documented; not yet enabled or verified on the NAS.
