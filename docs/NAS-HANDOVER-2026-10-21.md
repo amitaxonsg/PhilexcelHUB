@@ -52,3 +52,9 @@ sudo synopkg status SMBService
 ```
 
 Do not rerun disk partitioning or pool creation. Two Basic volumes offer no redundancy; require independent versioned backup and tested restore. Next steps: finish disk checks, security and firewall, verify approved staff identities, test SMB access boundaries, configure Tailscale offsite management, then narrowly scoped Company Hub SharePoint sync (exclude Board), UAT and signed handover. Gemini chatbot remains Phase 2.
+
+## Phase 06 handover — pause after Marketing pilot (21 October 2026)
+
+Spencer reported successful creation of one approved named Marketing test user, membership of the Marketing department group, and login to DSM File Station. Screenshots showed the Marketing share, its separate Recycle Bin, a deleted UAT test folder, and subsequent restoration of the folder including the test text file. **PASS (observed):** pilot login, Marketing folder access, create/upload, deletion to Recycle Bin, restoration. **NOT YET TESTED:** direct access denied to other department shares, SMB login/mapped drive, permissions under a distinct non-Marketing account, password reset, and any production file access. Do not infer security isolation from other shares being absent in File Station.
+
+**Resume next work session:** (1) verify pilot account cannot open Executive/Finance/other share UNC paths while authenticated only as that pilot; (2) test SMB Marketing RW using personal NAS credentials; (3) reconcile approved staff access matrix against the private Microsoft 365 directory and provision additional users only with approval; (4) confirm full disk checks, firewall/HTTPS/admin MFA, independent versioned backup/restore, private Tailscale support, cloud sync and final UAT. Keep legacy Admin-PC Z: drive unchanged pending cutover approval. No further NAS changes were performed after the pilot restoration in this session.
