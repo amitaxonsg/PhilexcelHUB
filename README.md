@@ -41,3 +41,10 @@ See [NAS setup, ports, storage allocation and verified commands](docs/NAS-HANDOV
 See the [current commissioning checkpoint](docs/NAS-HANDOVER-2026-10-21.md#current-checkpoint--22-october-2026-amit-guided-terminal-evidence). Seven professional department/resource group names are in use; 19 named staff accounts receive their own department RW and Company Shared RW. Two representative Windows pilots passed own/shared RW and other-department denial. Every share has a separate Recycle Bin; admin must be able to view all bins, subject to remaining restore UAT.
 
 Next requested order: verify dedicated Hub identity and tested two-way Synology Cloud Sync, then the three authenticated dashboard roles. QuickConnect DSM remote access is reported complete; branded Cloudflare redirect DNS/TLS verification remains open. Department AI stays Phase 2 Coming Soon. Full backup/security/handover checks remain open. See [dashboard requirements](docs/DASHBOARD.md).
+
+
+## Approved scope update — Linda and portal addresses
+
+Amit has approved bringing the former Phase 2 Gemini assistant into the current build. **Linda, your Philexcel AI Assistant**, will answer from authorized department and Company Shared documents with source links. Earlier Phase 2 Coming Soon instructions are superseded as a scheduling decision; they do not imply AI is live. See [portal and Linda implementation requirements](docs/PORTALS-AND-LINDA.md) and the [unconnected design preview](linda-preview.html).
+
+Enrollment, Department/Linda, Axon IT and delegated Admin entry points are specified in that document. Authentication, live Gemini API, permission-aware indexing, runtime deployment and all privileged dashboard functions remain pending. Seven Cloud Sync connections are user-reported configured; only the Company Shared NAS-to-cloud small-file test is user-confirmed. Staff cloud membership remains pending identity confirmation. Board remains excluded.
