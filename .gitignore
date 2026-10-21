@@ -8,3 +8,8 @@ backups/
 *.pem
 *.key
 *discovery.json
+
+# PHILEXCEL private NAS diagnostics and UAT output
+philexcel-private-audit/
+hub-uat-private.csv
+NAS-Inventory-*.txt
