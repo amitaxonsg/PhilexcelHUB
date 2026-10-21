@@ -58,7 +58,13 @@ Independent readback of all seven shares with `synoshare --get` and `synoshare -
 
 - Enable **Recycle Bin = yes** independently for each of the seven shares: `Executive`, `AdminHR`, `FinancePurchasing`, `Marketing`, `AdminMarketing`, `Engineering`, and `CompanyShared`. Each share has its own Synology `#recycle` folder; do not create a single company-wide bin.
 - Keep **Hide unreadable subfolders and files = no** for all shares. This is explicitly approved, and is **not** permission to broaden access. Maintain per-department ACL isolation and test denied access for unauthorized users.
-- **Recycle Bin administrator-only restriction:** not specified in this instruction; obtain a separate decision on who may view/restore deleted items. Do not silently set it to yes.
-- Use supported DSM controls and verify with `sudo synoshare --get SHARE`; target `RecycleBin=yes` and `HideUnreadable=no`. The current CLI help did not document these controls.
-- Retention/auto-empty schedule, staff recovery permissions and restore UAT remain to be approved/tested. Recycle Bin is not an independent backup.
+- **Recycle Bin administrator-only restriction:** Amit subsequently approved department users accessing and restoring deleted files within their own authorized department share. Set `RecycleBinAdminOnly=no` for all seven shares. No cross-department permissions are granted; verify with actual user accounts.
+- Use supported DSM controls and verify with `sudo synoshare --get SHARE`; target `RecycleBin=yes`, `RecycleBinAdminOnly=no`, and `HideUnreadable=no`. The current CLI help did not document these controls.
+- Retention/auto-empty schedule and restore UAT remain to be approved/tested. Department-level access to its own recycle bin is approved; test the resulting DSM/SMB ACLs and recovery behavior. Recycle Bin is not an independent backup.
 - **Status:** approval documented; not yet enabled or verified on the NAS.
+
+### Phase 05.9 — Recycle Bin user-access approval (Amit decision relayed by Spencer)
+
+Amit approved departmental access to each department's **own** Recycle Bin. Keep Recycle Bin enabled and administrator-only restriction disabled for each of the seven existing shares, while leaving HideUnreadable disabled as previously approved. A user can only restore items if their own NAS identity has permissions on the corresponding share / `#recycle` content; do not assume a top-level setting alone proves isolation. Test authorized restore and cross-department denial with different staff test identities. `CompanyShared` uses its own approved shared-access group. No Recycle Bin should be used as the only backup.
+
+**Current implementation status:** Documentation approved; no evidence that these Recycle Bin toggles have yet been applied or verified on the NAS. Configure in DSM > Control Panel > Shared Folder > Edit > General (labels may vary by build), then verify with `sudo synoshare --get SHARE` and user-level UAT. Do not grant `users` or `everyone` broad ACLs.
