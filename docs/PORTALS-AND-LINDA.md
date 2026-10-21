@@ -15,7 +15,7 @@ Approved by Amit in the current commissioning session. This is an implementation
 These are three dashboard roles (Axon IT, Philexcel Admin, Department); enrollment and file shortcuts are supporting entry points.
 
 ## Linda, your Philexcel AI Assistant
-Amit requests a basic department chat interface backed by Gemini and indexed documents. This supersedes a landing-page-only UI design. Live AI remains unimplemented and must not be presented as operational. Use the company Hub-managed Google Cloud/Gemini project identity; a mailbox alone is not an API credential. Select the Gemini model at deployment after checking available models and pricing. Keep API credentials on the server.
+Amit requests a basic department chat interface backed by Gemini and indexed documents. This supersedes a landing-page-only UI design. Amit subsequently authorized building and activating Linda now, bringing the former Phase 2 work into the current implementation scope. Live AI remains unimplemented and must not be presented as operational until connected and tested. Use the company Hub-managed Google Cloud/Gemini project identity; a mailbox alone is not an API credential. Select the Gemini model at deployment after checking available models and pricing. Keep API credentials on the server.
 
 ### Request path
 1. Authenticate Microsoft 365 identities through Entra authorization-code flow, validate issuer, audience, tenant and session.
