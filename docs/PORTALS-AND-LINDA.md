@@ -66,3 +66,7 @@ Inspect hosting/runtime and approved deployment credentials; confirm Entra app, 
 See [Singapore hosting package](../portal/README.md). Source includes Entra login, hashed supplemental gates, Windows/Mac enrollment helpers, mobile instructions, Gemini REST integration and delegated SharePoint index search. Nine local tests pass; real provider/device/browser/deployment checks remain pending.
 
 Approved Executive AI users can query all seven HUB libraries; Executive & Board remains excluded. Department staff get their approved departments plus Company Shared. Admin controls can enable/disable Linda per person, select AI departments and explicitly approve Executive scope; changes are audited in the private SQLite database. AI grants never override Microsoft document permissions or change NAS rights. No restricted documents are searched to infer a forbidden answer. Ask an authorized colleague to sign in with their own identity, never share credentials.
+
+
+## Continued Git development — 22 October 2026
+At Amit's instruction, continue development in Git and defer DNS/Singapore hosting. Seventeen local tests now pass, including simulated source retrieval/cited generation, mid-request AI revocation, Board rejection, admin authorization/audit and enrollment download scope. Admin and Axon audit views and authorized workspace buttons are implemented. GitHub portal-check workflow added; its remote execution is not implied by local results. Live Microsoft/Gemini, browser/device testing, script signing and deployment remain pending.

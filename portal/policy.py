@@ -47,7 +47,13 @@ def restricted_department(question, scopes):
     hints={'Executive':['executive'], 'Administration-HR':['human resources','hr'],
       'Marketing':['marketing'], 'Administration-Marketing':['administration marketing'],
       'Finance-Purchasing':['finance','purchasing','payroll'], 'Engineering':['engineering']}
+    # Resolve the specific administration/marketing phrase before generic marketing.
+    remaining = question
+    specific = r'\badministration\s*(?:/|-)?\s*marketing\b'
+    if re.search(specific, remaining, re.I):
+        if 'Administration-Marketing' not in scopes: return 'Administration-Marketing'
+        remaining = re.sub(specific, '', remaining, flags=re.I)
     for department, words in hints.items():
-        if department not in scopes and any(re.search(r'\b'+re.escape(w)+r'\b',question,re.I) for w in words):
+        if department not in scopes and any(re.search(r'\b'+re.escape(w)+r'\b',remaining,re.I) for w in words):
             return department
     return None

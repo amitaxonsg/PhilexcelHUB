@@ -7,6 +7,7 @@ from urllib.parse import quote, urlsplit
 import msal, requests
 from flask import Flask, abort, jsonify, redirect, render_template, request, session, url_for, Response
 from flask_session import Session
+from cachelib.file import FileSystemCache
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from werkzeug.security import check_password_hash
@@ -15,8 +16,8 @@ from access_store import AccessStore
 
 BASE = Path(__file__).parent
 app = Flask(__name__)
-app.config.update(SECRET_KEY=os.environ['SESSION_SECRET'], SESSION_TYPE='filesystem',
- SESSION_FILE_DIR=os.environ['SESSION_DIRECTORY'], SESSION_COOKIE_SECURE=True,
+app.config.update(SECRET_KEY=os.environ['SESSION_SECRET'], SESSION_TYPE='cachelib',
+ SESSION_CACHELIB=FileSystemCache(os.environ['SESSION_DIRECTORY'], threshold=1000, mode=0o600), SESSION_COOKIE_SECURE=True,
  SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE='Lax',
  PERMANENT_SESSION_LIFETIME=timedelta(hours=1), MAX_CONTENT_LENGTH=16384,
  TRUSTED_HOSTS=os.environ['PORTAL_HOSTS'].split(','))
@@ -137,6 +138,7 @@ def portal(mode):
  if mode=='data': return redirect('https://data.philexcel.com')
  return render_template('portal.html', mode=mode, person=p, name=session['name'],
   libraries=ai_libraries(p) if mode=='ai' else allowed_libraries(p), trial=trial_state(), csrf=session['csrf'],
+  audit=access_store.recent_audit() if mode in ('admin','axon') else [],
   departments=list(DEPARTMENTS), staff=[dict(record, oid=oid) for oid,record in records().items()] if mode=='admin' else [],
   ai_settings={oid: {**record, **access_store.get(oid)} for oid,record in records().items()} if mode=='admin' else {},
   nas=os.environ.get('NAS_HOST',''), connected=bool(ai_libraries(p) and os.environ.get('GEMINI_API_KEY') and os.environ.get('GEMINI_MODEL')))
@@ -206,8 +208,11 @@ def chat():
  if trial_state()['expired']: return jsonify(code='TRIAL_EXPIRED', answer='Trial Expired'),403
  if not os.environ.get('GEMINI_API_KEY') or not os.environ.get('GEMINI_MODEL'):
   return jsonify(answer='Linda is awaiting the company Gemini connection.'),503
- body=request.get_json() or {}; question=body.get('question',''); library=body.get('library','')
- if not isinstance(question,str) or not 1 <= len(question.strip()) <= 1000: abort(400)
+ body=request.get_json() or {}
+ if not isinstance(body,dict): abort(400)
+ question=body.get('question',''); library=body.get('library','')
+ if not isinstance(body,dict): abort(400)
+ if not isinstance(question,str) or not isinstance(library,str) or not 1 <= len(question.strip()) <= 1000: abort(400)
  scopes=ai_libraries(person())
  if not scopes: return jsonify(answer='Linda is not enabled for your account. Please contact your administrator.'),403
  if library=='All departments' and person().get('ai_level')=='executive':
@@ -219,6 +224,8 @@ def chat():
  if restricted: return jsonify(answer='Your question may relate to '+restricted+'. '+RESTRICTION_MESSAGE, sources=[]) 
  # A private, admin-maintained allowlist of the seven HUB drive IDs; no Board index.
  drives=json.loads(Path(os.environ['LIBRARY_CONFIG']).read_text())
+ if len(set(drives.values())) != len(drives) or not set(drives).issubset(set(DEPARTMENTS)|{'Company-Shared'}):
+  abort(503, 'Library configuration needs administrator review.')
  access=token(); sources=[]; passages=[]
  query=quote(question.strip().replace("'", "''"), safe='')
  for scope in selected_scopes:
@@ -226,7 +233,8 @@ def chat():
   if not drive: abort(503, 'Library indexing setup is incomplete.')
   results=graph('/drives/'+quote(drive,safe='')+"/root/search(q='"+query+"')?$top=3",access)
   for item in results.get('value', []):
-   if not item.get('file') or item.get('size',0)>5_000_000: continue
+   if len(sources)>=8: break
+   if 'file' not in item or item.get('size',0)>5_000_000: continue
    # Fetch current item through the user's delegated token: current access check.
    path='/drives/'+quote(drive,safe='')+'/items/'+quote(item['id'],safe='')
    current=graph(path,access)
@@ -235,7 +243,8 @@ def chat():
    link=current.get('@microsoft.graph.downloadUrl')
    if not link or urlsplit(link).scheme!='https' or urlsplit(link).hostname != 'philexcelbusinesspark.sharepoint.com': continue
    # Preauthenticated Graph-generated link, without forwarding a bearer token.
-   with requests.get(link,timeout=25,stream=True) as dl:
+   with requests.get(link,timeout=25,stream=True,allow_redirects=False) as dl:
+    if dl.status_code != 200: continue
     dl.raise_for_status(); data=bytearray()
     for chunk in dl.iter_content(65536):
      data.extend(chunk)

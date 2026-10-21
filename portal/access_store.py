@@ -20,3 +20,7 @@ class AccessStore:
    db.execute('INSERT INTO ai_access VALUES (?,?) ON CONFLICT(oid) DO UPDATE SET settings=excluded.settings',(oid,serialized))
    db.execute('INSERT INTO audit (at,actor,target,before_value,after_value) VALUES (?,?,?,?,?)',
     (datetime.now(timezone.utc).isoformat(),actor,oid,row[0] if row else '{}',serialized))
+ def recent_audit(self, limit=50):
+  with self.connect() as db:
+   rows=db.execute('SELECT at,actor,target,before_value,after_value FROM audit ORDER BY id DESC LIMIT ?', (min(limit,100),)).fetchall()
+  return [{'at':r[0],'actor':r[1],'target':r[2],'before':json.loads(r[3]),'after':json.loads(r[4])} for r in rows]

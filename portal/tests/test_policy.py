@@ -30,3 +30,9 @@ def test_restriction_routing_uses_only_public_department_hints():
  from policy import restricted_department
  assert restricted_department('show me finance payroll', ['Marketing','Company-Shared'])=='Finance-Purchasing'
  assert restricted_department('engineering safety policy', ['Engineering','Company-Shared']) is None
+
+def test_administration_marketing_is_not_generic_marketing():
+ from policy import restricted_department
+ scopes=['Administration-Marketing','Company-Shared']
+ assert restricted_department('administration / marketing procedures', scopes) is None
+ assert restricted_department('administration-marketing procedures', ['Marketing','Company-Shared'])=='Administration-Marketing'

@@ -13,7 +13,7 @@ Amit explicitly requested starting today. Trial starts **22 October 2026, 06:36:
 - First release uses SharePoint's existing search index, not a separate vector database. Search is keyword-based; a long conversational question may need shortening. TXT, text PDF and DOCX up to 5 MB, bounded excerpts. Scans, spreadsheets and larger documents are not extracted yet. No document cache/chat history retained.
 - Personalised Windows mapping download: preview, connectivity check, credentials only on client, probe share access, explicit occupied-drive replacement, mapping backup and best-effort rollback. Existing letters are preserved unless the person explicitly approves replacement. No wildcard unmap.
 - Mac SMB helper plus Finder steps. Phone/away instructions link to Microsoft-protected SharePoint. No script auto-execution in a browser.
-- Admin/support pages give clear procedures; privileged NAS account creation/disable, live health, audit log UI and trial renewal automation are **not implemented**. Admin must perform the documented NAS/SharePoint steps.
+- Admin/support pages give clear procedures; privileged NAS account creation/disable, live health, trial renewal automation are **not implemented**. Admin must perform the documented NAS/SharePoint steps.
 
 ## Deployment needs
 1. Confirm the exact Singapore server, hosting account, OS and current Apache arrangement. Do not install globally or modify unrelated accounts. A supported Python runtime, virtual environment, Redis and per-account Gunicorn process are required. If unavailable, assess the existing account's supported application runner first.
@@ -58,4 +58,14 @@ These AI settings are independent of enrollment drive mappings and cannot create
 
 Staff are refused when choosing an unauthorized workspace. Questions explicitly naming a restricted department get a friendly routing message without querying that library. Linda cannot always classify an ambiguous topic; insufficient evidence produces a no-answer response, never a guessed claim about restricted documents. Staff should ask a colleague to use their own login, never borrow their credentials. AI access changes are rechecked before and after model generation.
 
-Local checks completed: nine policy/request tests, Python compile, JS syntax and Mac shell syntax. Provider credentials, actual server runtime, browser rendering, executable signing and Windows/Mac/phone device UAT remain to be completed. No production provider request was made during local tests.
+Local checks completed: seventeen policy/request tests, Python compile, JS syntax and Mac shell syntax. Provider credentials, actual server runtime, browser rendering, executable signing and Windows/Mac/phone device UAT remain to be completed. No production provider request was made during local tests.
+
+
+## Development checkpoint — 22 October 2026
+- Department workspace buttons show only the signed-in person's approved Linda scopes. Executive has an All departments option.
+- Admin and Axon pages display the last 50 Linda permission changes. Role checks protect both views; staff cannot open them or save access settings.
+- Administration/Marketing routing takes precedence over generic Marketing, preventing mistaken out-of-department refusals.
+- Enrollment downloads are tested for approval gate enforcement and exact assigned share lists; no passwords are embedded.
+- Seventeen local tests pass, including a simulated document-to-Gemini-to-citation flow, removal of access during generation, rejection of Board documents and prevention of unauthorized Executive grants. Real Microsoft/Gemini responses are not yet tested.
+- Automated GitHub checks are configured for portal changes. Workflow execution is separate from the local passing results.
+- DNS, Singapore hosting and real provider credentials are deliberately deferred at Amit's instruction.

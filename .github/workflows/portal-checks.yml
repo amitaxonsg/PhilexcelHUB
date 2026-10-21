@@ -1,0 +1,26 @@
+name: Portal checks
+on:
+  push:
+    paths: ['portal/**', '.github/workflows/portal-checks.yml']
+  pull_request:
+    paths: ['portal/**', '.github/workflows/portal-checks.yml']
+permissions:
+  contents: read
+jobs:
+  portal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install -r portal/requirements.txt
+      - run: python -m pytest portal/tests -q
+        env:
+          PYTHONPATH: portal
+      - run: python -m compileall -q portal
+      - run: node --check portal/static/portal.js
+      - run: bash -n portal/downloads/Enroll-Mac.command
