@@ -52,11 +52,17 @@ Inspect hosting/runtime and approved deployment credentials; confirm Entra app, 
 
 ## AI dashboard trial — approved
 - One company-wide 30-day trial for Linda and the AI dashboard. It is not a new trial per employee, browser or login.
-- Start only on the first deliberate production activation, after the live backend is configured. No start date is assigned by writing this specification or opening a design preview.
+- Superseding instruction: Amit explicitly started the trial today. Start: 22 October 2026 06:36:05 UTC+08:00. Expiry: 21 November 2026 06:36:05 UTC+08:00. Deployment delays do not reset the trial.
 - Persist trial_started_at and trial_expires_at server side in UTC; expiry is exactly 30 days (720 hours) after activation. Display local date/time and remaining days in the dashboard.
 - Before each chat, retrieval or AI API request, enforce current time < trial_expires_at. At expiry return HTTP 403 with code TRIAL_EXPIRED; do not retrieve documents or call Gemini.
 - UI during trial: “30-day AI trial” with remaining days and expiry date. At expiry: “Trial Expired” and “Your 30-day trial of Linda, your Philexcel AI Assistant, has ended. Contact Axon 1Pro Solutions to continue.” Disable question submission and provide a support link.
 - Reloads, local clock changes, account changes, reinstalling or clearing browser storage must not restart or extend the trial. Only an authorized Axon administrator can activate, extend or renew it, with an audit event.
 - NAS SMB, enrollment, SharePoint files, data shortcut, existing Cloud Sync and non-AI administrative/support functions remain available according to their normal permissions. No automatic charge or renewal is configured.
 - Required tests: one instant before expiry, exact expiry, after expiry, a second staff account, browser storage reset, and file access after AI expiry.
-- Trial enforcement is specified but not live; secure backend and persistent store still need implementation.
+- Trial enforcement is implemented in portal/policy.py and portal/app.py, locally tested but not yet deployed.
+
+
+## Implementation source checkpoint
+See [Singapore hosting package](../portal/README.md). Source includes Entra login, hashed supplemental gates, Windows/Mac enrollment helpers, mobile instructions, Gemini REST integration and delegated SharePoint index search. Nine local tests pass; real provider/device/browser/deployment checks remain pending.
+
+Approved Executive AI users can query all seven HUB libraries; Executive & Board remains excluded. Department staff get their approved departments plus Company Shared. Admin controls can enable/disable Linda per person, select AI departments and explicitly approve Executive scope; changes are audited in the private SQLite database. AI grants never override Microsoft document permissions or change NAS rights. No restricted documents are searched to infer a forbidden answer. Ask an authorized colleague to sign in with their own identity, never share credentials.

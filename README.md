@@ -48,3 +48,7 @@ Next requested order: verify dedicated Hub identity and tested two-way Synology 
 Amit has approved bringing the former Phase 2 Gemini assistant into the current build. **Linda, your Philexcel AI Assistant**, will answer from authorized department and Company Shared documents with source links. Earlier Phase 2 Coming Soon instructions are superseded as a scheduling decision; they do not imply AI is live. See [portal and Linda implementation requirements](docs/PORTALS-AND-LINDA.md) and the [unconnected design preview](linda-preview.html).
 
 Enrollment, Department/Linda, Axon IT and delegated Admin entry points are specified in that document. Authentication, live Gemini API, permission-aware indexing, runtime deployment and all privileged dashboard functions remain pending. Seven Cloud Sync connections are user-reported configured; only the Company Shared NAS-to-cloud small-file test is user-confirmed. Staff cloud membership remains pending identity confirmation. Board remains excluded.
+
+## Portal implementation package
+
+The [portal source and Singapore deployment guide](portal/README.md) now includes Linda, per-user/admin AI controls, Executive all-HUB scope (Board excluded), enrollment downloads and a fixed trial starting 22 October 2026, expiring 21 November 2026 at 06:36:05 UTC+08:00. Nine local tests pass. This is source code, not a live deployed service; credentials, hosting, staff mapping, real provider tests, installer signing and device UAT are pending.
