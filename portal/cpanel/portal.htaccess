@@ -1,0 +1,6 @@
+# Merge these rules into each portal's .htaccess; preserve cPanel's PHP handler.
+DirectoryIndex index.php
+RewriteEngine On
+RewriteRule ^\.well-known/acme-challenge/ - [L]
+RewriteRule ^index\.php$ - [L]
+RewriteRule ^ index.php [END]

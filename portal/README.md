@@ -1,6 +1,6 @@
 # Philexcel portals — Singapore hosting package
 
-Implementation source, not a deployed service. This package uses Flask/Gunicorn behind the existing HTTPS Apache virtual hosts. No NGINX changes. Do not put the app, private configuration, session store or Python files in a public static document root.
+Implementation source, not a deployed service. For the verified shared cPanel account, use [the PHP-FPM private Python adapter](cpanel/README.md). It requires no new ports, Apache modules or services. The Gunicorn/Redis method below is an alternative for other approved hosts and must not be applied to this shared server. No NGINX changes. Do not put the app, private configuration, session store or Python files in a public static document root.
 
 ## Trial dates
 Amit explicitly requested starting today. Trial starts **22 October 2026, 06:36:05 Singapore/Philippines time**, expires **21 November 2026, 06:36:05** (UTC+08:00). Constants in policy.py enforce one fixed company trial across users/restarts. Only the AI feature is gated by expiry. Changing deployment time does not restart it. Admin-controlled renewal needs a subsequent audited configuration change; no automatic billing.
@@ -15,7 +15,7 @@ Amit explicitly requested starting today. Trial starts **22 October 2026, 06:36:
 - Mac SMB helper plus Finder steps. Phone/away instructions link to Microsoft-protected SharePoint. No script auto-execution in a browser.
 - Admin/support pages give clear procedures; privileged NAS account creation/disable, live health, trial renewal automation are **not implemented**. Admin must perform the documented NAS/SharePoint steps.
 
-## Deployment needs
+## Alternative deployment needs (not for the current shared cPanel server)
 1. Confirm the exact Singapore server, hosting account, OS and current Apache arrangement. Do not install globally or modify unrelated accounts. A supported Python runtime, virtual environment, Redis and per-account Gunicorn process are required. If unavailable, assess the existing account's supported application runner first.
 2. Create a new Entra **web** application for these portals, separate from the PnP provisioning app. Single tenant. Delegated Microsoft Graph `User.Read`, `Files.Read.All`; authorize consent according to tenant policy. Add these exact Web callback URLs:
    - https://ai.philexcel.com/auth/callback
@@ -69,3 +69,6 @@ Local checks completed: seventeen policy/request tests, Python compile, JS synta
 - Seventeen local tests pass, including a simulated document-to-Gemini-to-citation flow, removal of access during generation, rejection of Board documents and prevention of unauthorized Executive grants. Real Microsoft/Gemini responses are not yet tested.
 - Automated GitHub checks are configured for portal changes. Workflow execution is separate from the local passing results.
 - DNS, Singapore hosting and real provider credentials are deliberately deferred at Amit's instruction.
+
+## Current cPanel deployment checkpoint
+The philexcel account has Python 3.12, a private virtual environment, installed dependencies and 17 server-side passing tests. PHP-FPM runs as philexcel (UID 1164) and successfully launches that private Python. The account-only adapter adds three local tests (20 total). Its PHP syntax and end-to-end hosting checks remain pending on the target host. Secrets, Entra runtime registration, staff/library mapping and live provider UAT are still required. See cpanel/README.md. Do not relax apps directory permissions or install shared Apache modules.

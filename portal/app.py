@@ -23,7 +23,8 @@ app.config.update(SECRET_KEY=os.environ['SESSION_SECRET'], SESSION_TYPE='cacheli
  TRUSTED_HOSTS=os.environ['PORTAL_HOSTS'].split(','))
 Session(app)
 limiter = Limiter(key_func=get_remote_address, app=app,
- storage_uri=os.environ['RATE_LIMIT_STORAGE_URI'], default_limits=['120 per minute'])
+ storage_uri=os.environ['RATE_LIMIT_STORAGE_URI'], default_limits=['120 per minute'],
+ enabled=os.environ.get('CPANEL_PRIVATE_BRIDGE') != '1')
 TENANT = os.environ['ENTRA_TENANT_ID']
 SCOPES = ['User.Read', 'Files.Read.All']
 SITE = 'https://philexcelbusinesspark.sharepoint.com/sites/PhilexcelHUB'

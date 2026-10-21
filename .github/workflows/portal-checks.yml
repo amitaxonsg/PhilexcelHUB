@@ -24,3 +24,9 @@ jobs:
       - run: python -m compileall -q portal
       - run: node --check portal/static/portal.js
       - run: bash -n portal/downloads/Enroll-Mac.command
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - run: php -l portal/cpanel/index.php
