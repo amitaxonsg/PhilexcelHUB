@@ -48,3 +48,15 @@ Map department letters X/H/F/M/R/E and Company Shared Z. If Z is already mapped 
 
 ## Next implementation gates
 Inspect hosting/runtime and approved deployment credentials; confirm Entra app, HTTPS callback URLs and Google project/API availability. Complete mapping script review and one-PC UAT. Implement authenticated portal backend, authorization and index lifecycle before enabling chat. Never publish privileged actions as a static client-side dashboard.
+
+
+## AI dashboard trial — approved
+- One company-wide 30-day trial for Linda and the AI dashboard. It is not a new trial per employee, browser or login.
+- Start only on the first deliberate production activation, after the live backend is configured. No start date is assigned by writing this specification or opening a design preview.
+- Persist trial_started_at and trial_expires_at server side in UTC; expiry is exactly 30 days (720 hours) after activation. Display local date/time and remaining days in the dashboard.
+- Before each chat, retrieval or AI API request, enforce current time < trial_expires_at. At expiry return HTTP 403 with code TRIAL_EXPIRED; do not retrieve documents or call Gemini.
+- UI during trial: “30-day AI trial” with remaining days and expiry date. At expiry: “Trial Expired” and “Your 30-day trial of Linda, your Philexcel AI Assistant, has ended. Contact Axon 1Pro Solutions to continue.” Disable question submission and provide a support link.
+- Reloads, local clock changes, account changes, reinstalling or clearing browser storage must not restart or extend the trial. Only an authorized Axon administrator can activate, extend or renew it, with an audit event.
+- NAS SMB, enrollment, SharePoint files, data shortcut, existing Cloud Sync and non-AI administrative/support functions remain available according to their normal permissions. No automatic charge or renewal is configured.
+- Required tests: one instant before expiry, exact expiry, after expiry, a second staff account, browser storage reset, and file access after AI expiry.
+- Trial enforcement is specified but not live; secure backend and persistent store still need implementation.
