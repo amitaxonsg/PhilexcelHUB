@@ -28,6 +28,6 @@ Record tester, date, PASS/FAIL, evidence and remedial actions in the restricted 
 
 Run read-only connectivity report with:
 ```powershell
-.\scripts\Test-HubUAT.ps1 -NasHost PHILEXCEL-NAS
+.\scripts\Test-HubUAT.ps1 -NasHost PHILEXCEL-NAS -Share Marketing -OutputCsv '.\philexcel-private-audit\hub-uat.csv'
 ```
 Do not include passwords or secret tokens in reports.
