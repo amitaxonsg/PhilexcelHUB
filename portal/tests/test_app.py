@@ -157,3 +157,15 @@ def test_unrecognized_source_never_reaches_gemini(chat_providers,monkeypatch):
  monkeypatch.setattr(module,'graph',graph_with_board_item)
  r=client.post('/api/chat',base_url='https://localhost',headers={'X-CSRF-Token':'test-csrf'},json={'question':'logo','library':'Marketing'})
  assert r.status_code==200 and r.json['sources']==[] and calls==[]
+
+def test_certificate_credential_and_incomplete_config_fail_closed(server, tmp_path, monkeypatch):
+ module,_,_=server
+ cert=tmp_path/'public.pem';cert.write_text('public-test-certificate')
+ key=tmp_path/'key.pem';key.write_text('private-test-key')
+ monkeypatch.setenv('ENTRA_CERTIFICATE_PATH',str(cert))
+ monkeypatch.setenv('ENTRA_PRIVATE_KEY_PATH',str(key))
+ monkeypatch.setattr(module.msal,'ConfidentialClientApplication',lambda *args,**kwargs:kwargs)
+ result=module.entra()
+ assert result['client_credential']=={'private_key':'private-test-key','public_certificate':'public-test-certificate'}
+ monkeypatch.delenv('ENTRA_PRIVATE_KEY_PATH')
+ with pytest.raises(ValueError): module.entra()

@@ -31,9 +31,18 @@ SITE = 'https://philexcelbusinesspark.sharepoint.com/sites/PhilexcelHUB'
 access_store = AccessStore(os.environ['ACCESS_DATABASE'])
 
 def entra(cache=None):
+ certificate=os.environ.get('ENTRA_CERTIFICATE_PATH')
+ private_key=os.environ.get('ENTRA_PRIVATE_KEY_PATH')
+ if certificate or private_key:
+  if not certificate or not private_key:
+   raise ValueError('Both certificate and private key paths are required')
+  credential={'private_key':Path(private_key).read_text(),
+   'public_certificate':Path(certificate).read_text()}
+ else:
+  credential=os.environ['ENTRA_CLIENT_SECRET']
  return msal.ConfidentialClientApplication(os.environ['ENTRA_CLIENT_ID'],
   authority='https://login.microsoftonline.com/'+TENANT,
-  client_credential=os.environ['ENTRA_CLIENT_SECRET'], token_cache=cache)
+  client_credential=credential, token_cache=cache)
 
 def records():
  return json.loads(Path(os.environ['STAFF_CONFIG']).read_text())
