@@ -5,7 +5,7 @@ Hostname: PHILEXCEL-HUB. Synology DS223, DSM 7.4.1, two 2 TB independent Basic/B
 
 The seven approved department shares and groups were configured and verified. Each share has its own Recycle Bin enabled, department users are not restricted to admin-only restore, and Hide Unreadable is off. Representative staff SMB access tests have now passed; see the 22 October checkpoint below.
 
-Configuration is not yet production-ready. Disk checks, firewall, secure remote support, backup restoration, and Microsoft 365 integration remain to be completed.
+Configuration is not yet production-ready. QuickConnect remote DSM access is reported complete; disk checks, firewall/admin MFA, shell-support route, backup restoration and Microsoft 365 integration remain open.
 
 The private Google Drive register holds internal IPs, device serials, network details and credential-vault references. No actual passwords belong in GitHub or Google Docs.
 
@@ -19,7 +19,7 @@ The private Google Drive register holds internal IPs, device serials, network de
 | TCP 443 outbound | Updates, Microsoft 365, Tailscale control | Provider connections pending verification |
 | UDP 123 outbound | Time synchronization | NTP settings pending |
 | UDP/TCP 53 outbound | DNS | Office DNS settings pending |
-| Tailscale outbound UDP (negotiated) | Private remote connectivity | Not installed; no inbound router forwarding |
+| Tailscale outbound UDP (negotiated) | Evaluated private remote connectivity | Installed/enrolled during evaluation; superseded by QuickConnect; cleanup unverified |
 
 Temporary LAN addressing and equipment serials are recorded only in the restricted Drive register. NAS IP will need an approved office DHCP reservation on relocation.
 
@@ -74,11 +74,20 @@ This checkpoint supersedes the earlier pending staff provisioning and sample SMB
 
 Each of the seven shares retains its own Recycle Bin. Department members can access/restore within their authorized share; the main NAS administrator must be able to inspect and restore across all seven bins. Prior Marketing restore passed; administrator access across every bin and retention/emptying policy still require verification. RecycleBinAdminOnly remains no, HideUnreadable remains no. CompanyShared has its own bin. Recycle Bin is not independent backup.
 
-Amit designates the existing main NAS administrator as the operational admin identity, with the dedicated company Hub Microsoft 365 email as its contact and Cloud Sync identity. Actual account names/address are recorded privately. Local NAS and Microsoft 365 credentials remain independent; cloud credentials/tokens never enter GitHub or client-side dashboards. NAS contact email update is pending readback.
+Amit designates the existing main NAS administrator as the operational admin identity, with the dedicated company Hub Microsoft 365 email as its contact and Cloud Sync identity. Actual account names/address are recorded privately. Local NAS and Microsoft 365 credentials remain independent; cloud credentials/tokens never enter GitHub or client-side dashboards. NAS administrator contact email was updated and verified through synouser readback; administrator remains in administrators and is active.
 
 ### Next execution order requested by Amit
 
-1. Install supported Tailscale NAS package and Windows support client; use Axon-controlled identities, restrict authorized support devices/users, and test DSM/SSH from a different internet connection. Installation, enrollment and offsite test are pending. No public DSM/SSH/SMB forwarding.
+1. Remote method revised: QuickConnect selected and remote DSM access reported complete by Amit. Separate shell support and custom dashboard routing remain open. No public DSM/SSH/SMB forwarding.
 2. Verify dedicated Hub Microsoft 365 licensing and least-privilege Company Hub access. Configure Synology Cloud Sync for NAS/cloud synchronization: start a test upload-only task, then enable bidirectional sync only after conflict, deletion, version recovery and cloud ACL tests. Board SharePoint excluded. “Dual cloud sync” is interpreted as two-way NAS/cloud synchronization; no second cloud provider has been selected. Sync is not backup.
 3. Build exactly three authenticated dashboard roles: Axon IT, Philexcel Admin, Department. Phase 1 department landing page only; AI chatbot remains Phase 2 Coming Soon. Public GitHub Pages remains a preview, not a real NAS admin backend.
 4. Complete disk checks, firewall/HTTPS/admin MFA and recovery, UPS/alerts, independent versioned backup/restore, recycle-bin administrator tests, reconnect/mapping tests, then approved migration/cutover and signed handover. Existing office Z: is preserved.
+
+
+## Remote access and branding update — 22 October 2026
+
+- Tailscale 1.58.2 was installed and enrollment verified during evaluation. Amit subsequently chose QuickConnect because of Tailscale's commercial trial/subscription requirement. Do not treat Tailscale as the accepted ongoing support path. Logout/device removal/package cleanup has not been confirmed.
+- QuickConnect was enabled and its DSM login page observed in screenshots. Amit now reports remote access complete. This is user-confirmed completion, not an independent offsite audit; no blanket SSH/SMB or firewall acceptance implied.
+- Cloudflare branded shortcut was configured as a proxied redirect-only A record (documentation placeholder 192.0.2.1) and hostname-specific static 302 redirect to QuickConnect. Public DNS lookup earlier returned NXDOMAIN and Cloudflare displayed no issued edge certificate despite Universal SSL enabled. This branded redirect remains unverified; do not mark DNS/TLS repaired without a new test. Actual hostname/endpoint details belong in the private register.
+- Philexcel logo-based login wallpaper created and uploaded; revised image places branding middle-left and leaves the right clear for the DSM sign-in panel. Login title/message/footer wording supplied. Desktop wallpaper is a separate per-user Display Preferences setting; final application there is not verified. DSM customized-domain field should remain blank for the redirect-only design.
+- Next task: inspect Cloud Sync package, verify Hub Microsoft 365 licensing and Company Hub destination, then pilot the seven department/resource mappings with Board excluded. No live company migration/cutover performed.
