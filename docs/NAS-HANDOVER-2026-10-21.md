@@ -3,7 +3,7 @@
 Commissioning date: 21 October 2026.
 Hostname: PHILEXCEL-HUB. Synology DS223, DSM 7.4.1, two 2 TB independent Basic/Btrfs volumes.
 
-The seven approved department shares and groups were configured and verified. Each share has its own Recycle Bin enabled, department users are not restricted to admin-only restore, and Hide Unreadable is off. Staff access tests are still outstanding.
+The seven approved department shares and groups were configured and verified. Each share has its own Recycle Bin enabled, department users are not restricted to admin-only restore, and Hide Unreadable is off. Representative staff SMB access tests have now passed; see the 22 October checkpoint below.
 
 Configuration is not yet production-ready. Disk checks, firewall, secure remote support, backup restoration, and Microsoft 365 integration remain to be completed.
 
@@ -26,15 +26,15 @@ Temporary LAN addressing and equipment serials are recorded only in the restrict
 ## Approved volume and mapping
 | Volume | Share | Local group | Windows drive |
 |---|---|---|---|
-| 1 | Executive | grp_executive | X: |
-| 1 | AdminHR | grp_adminhr | H: |
-| 1 | FinancePurchasing | grp_finance | F: |
-| 2 | Marketing | grp_marketing | M: |
-| 2 | AdminMarketing | grp_adminmarketing | R: |
-| 2 | Engineering | grp_engineering | E: |
-| 2 | CompanyShared | grp_companyshared | Z: |
+| 1 | Executive | Executive | X: |
+| 1 | AdminHR | Administration-HR | H: |
+| 1 | FinancePurchasing | Finance-Purchasing | F: |
+| 2 | Marketing | Marketing | M: |
+| 2 | AdminMarketing | Administration-Marketing | R: |
+| 2 | Engineering | Engineering | E: |
+| 2 | CompanyShared | Company-Shared | Z: |
 
-These groups and shares exist, with departmental RW ACLs and administrator entries verified. All seven share Recycle Bins were confirmed enabled; administrator-only off, hide unreadable off. Effective staff SMB permissions are not yet tested. Preserve the old Admin-PC Z: mapping until cutover signoff.
+These groups and shares exist, with departmental RW ACLs and administrator entries verified. All seven share Recycle Bins were confirmed enabled; administrator-only off, hide unreadable off. Representative SMB permissions have passed for two department identities; broader UAT remains pending. Preserve the old Admin-PC Z: mapping until cutover signoff.
 
 ## Handover runbook
 DSM setup via official wizard; storage created as independent Basic/Btrfs volumes; SSH enabled after DSM reset; group provisioning via Synology synogroup and share provisioning via synoshare plus synoacltool. Confirm the result before proceeding. Read-only checks inside the NAS SSH shell:
@@ -58,3 +58,27 @@ Do not rerun disk partitioning or pool creation. Two Basic volumes offer no redu
 Spencer reported successful creation of one approved named Marketing test user, membership of the Marketing department group, and login to DSM File Station. Screenshots showed the Marketing share, its separate Recycle Bin, a deleted UAT test folder, and subsequent restoration of the folder including the test text file. **PASS (observed):** pilot login, Marketing folder access, create/upload, deletion to Recycle Bin, restoration. **NOT YET TESTED:** direct access denied to other department shares, SMB login/mapped drive, permissions under a distinct non-Marketing account, password reset, and any production file access. Do not infer security isolation from other shares being absent in File Station.
 
 **Resume next work session:** (1) verify pilot account cannot open Executive/Finance/other share UNC paths while authenticated only as that pilot; (2) test SMB Marketing RW using personal NAS credentials; (3) reconcile approved staff access matrix against the private Microsoft 365 directory and provision additional users only with approval; (4) confirm full disk checks, firewall/HTTPS/admin MFA, independent versioned backup/restore, private Tailscale support, cloud sync and final UAT. Keep legacy Admin-PC Z: drive unchanged pending cutover approval. No further NAS changes were performed after the pilot restoration in this session.
+
+
+## Current checkpoint — 22 October 2026 (Amit-guided terminal evidence)
+
+This checkpoint supersedes the earlier pending staff provisioning and sample SMB testing notes above. It does not mark the NAS production-ready.
+
+- Seven department/resource groups renamed to the professional names in the allocation table. Group IDs were retained; all seven share ACLs read back with the renamed RW groups and administrator entries. Share paths were not renamed.
+- At Amit's instruction, staff accounts now use the 19 first-name logins from the site roster; the 25 unmatched directory-style setup accounts were removed. NAS enumeration returned 22 accounts including three system/support accounts. The private register holds the actual roster and email mappings. Description fields show departments. Four confirmed email addresses retained; unresolved addresses left blank. No Microsoft 365 identity synchronization.
+- All 19 staff belong to their department and Company-Shared. Their department and CompanyShared share ACLs provide RW. No general cross-department grant was added.
+- PASS: first department pilot performed Windows SMB create/read/edit/delete in own department and CompanyShared; direct browsing of each of the five other department shares returned Access denied.
+- PASS: second department pilot authenticated to Engineering; Amit confirmed Engineering and CompanyShared create/read/edit/delete passes. Direct access to Executive, AdminHR, FinancePurchasing, Marketing and AdminMarketing returned Access denied. These are representative tests, not exhaustive per-user acceptance.
+
+### Recycle Bin and administrator requirements
+
+Each of the seven shares retains its own Recycle Bin. Department members can access/restore within their authorized share; the main NAS administrator must be able to inspect and restore across all seven bins. Prior Marketing restore passed; administrator access across every bin and retention/emptying policy still require verification. RecycleBinAdminOnly remains no, HideUnreadable remains no. CompanyShared has its own bin. Recycle Bin is not independent backup.
+
+Amit designates the existing main NAS administrator as the operational admin identity, with the dedicated company Hub Microsoft 365 email as its contact and Cloud Sync identity. Actual account names/address are recorded privately. Local NAS and Microsoft 365 credentials remain independent; cloud credentials/tokens never enter GitHub or client-side dashboards. NAS contact email update is pending readback.
+
+### Next execution order requested by Amit
+
+1. Install supported Tailscale NAS package and Windows support client; use Axon-controlled identities, restrict authorized support devices/users, and test DSM/SSH from a different internet connection. Installation, enrollment and offsite test are pending. No public DSM/SSH/SMB forwarding.
+2. Verify dedicated Hub Microsoft 365 licensing and least-privilege Company Hub access. Configure Synology Cloud Sync for NAS/cloud synchronization: start a test upload-only task, then enable bidirectional sync only after conflict, deletion, version recovery and cloud ACL tests. Board SharePoint excluded. “Dual cloud sync” is interpreted as two-way NAS/cloud synchronization; no second cloud provider has been selected. Sync is not backup.
+3. Build exactly three authenticated dashboard roles: Axon IT, Philexcel Admin, Department. Phase 1 department landing page only; AI chatbot remains Phase 2 Coming Soon. Public GitHub Pages remains a preview, not a real NAS admin backend.
+4. Complete disk checks, firewall/HTTPS/admin MFA and recovery, UPS/alerts, independent versioned backup/restore, recycle-bin administrator tests, reconnect/mapping tests, then approved migration/cutover and signed handover. Existing office Z: is preserved.
