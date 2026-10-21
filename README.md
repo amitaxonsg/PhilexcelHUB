@@ -1,6 +1,6 @@
 # PhilexcelHUB — Axon IT project
 
-**Status: NAS shares and named staff accounts configured; representative Windows RW/isolation tests passed. Remote access, cloud sync and authenticated dashboards remain pending. Not production-ready.**
+**Status: NAS shares and named staff accounts configured; representative Windows RW/isolation tests passed. QuickConnect remote DSM access is reported complete by Amit; cloud sync and authenticated dashboards remain pending. Not production-ready.**
 
 ## Exactly three dashboards
 - **Axon IT:** technical NAS management, secure support, cloud sync, backup, audit.
@@ -12,7 +12,7 @@ Synology DS223, 2 × 2TB disks. Proposed independent Basic volumes for capacity,
 
 NAS logins independent of Microsoft 365, no Intune/AD/Entra account synchronization. Windows PCs access NAS SMB; Microsoft 365 SharePoint Company Hub is separate for cloud access. hub@philexcel.com is the planned technical sync identity. Board SharePoint excluded. Test Cloud Sync one-way then two-way, simultaneous edits, deletions, versioning and restore. SharePoint authorization configured separately.
 
-Axon remote access: newly configured secure Tailscale path; no existing VPN, no fixed public IP, no DSM/SSH port forwarding.
+Remote access decision (22 October): use Synology QuickConnect for DSM and supported apps. Amit reports remote access complete. This does not provide a general SSH/SMB tunnel or publish custom dashboards. Tailscale was installed and enrolled during evaluation, then superseded due to business subscription requirements; logout/removal remains unverified. No DSM/SSH/SMB port forwarding.
 
 AI: Gemini API server side + prefiltered SharePoint retrieval, enforce each authenticated user's current department and actual document access before reading and again before returning links. AI read-only initially, no file editing or privileged NAS commands.
 
@@ -40,4 +40,4 @@ See [NAS setup, ports, storage allocation and verified commands](docs/NAS-HANDOV
 
 See the [current commissioning checkpoint](docs/NAS-HANDOVER-2026-10-21.md#current-checkpoint--22-october-2026-amit-guided-terminal-evidence). Seven professional department/resource group names are in use; 19 named staff accounts receive their own department RW and Company Shared RW. Two representative Windows pilots passed own/shared RW and other-department denial. Every share has a separate Recycle Bin; admin must be able to view all bins, subject to remaining restore UAT.
 
-Next requested order: secure Axon Tailscale access, dedicated Hub identity and tested two-way Synology Cloud Sync, then the three authenticated dashboard roles. Department AI stays Phase 2 Coming Soon. Full backup/security/handover checks remain open. See [dashboard requirements](docs/DASHBOARD.md).
+Next requested order: verify dedicated Hub identity and tested two-way Synology Cloud Sync, then the three authenticated dashboard roles. QuickConnect DSM remote access is reported complete; branded Cloudflare redirect DNS/TLS verification remains open. Department AI stays Phase 2 Coming Soon. Full backup/security/handover checks remain open. See [dashboard requirements](docs/DASHBOARD.md).
