@@ -33,3 +33,19 @@ Spencer reports that Amit approved balancing the six departmental shares evenly 
 **Implementation status:** allocation documented, not evidence that shares exist. Verify actual Volume 1/2 placement after creating shares. Both volumes are Basic/Btrfs with no drive-failure redundancy. An independent versioned backup and tested restore remain mandatory. The existing Admin-PC Z: mapping must not be changed without separate migration and cutover approval.
 
 Private Google Drive register fields: timestamp, responsible person, NAS model/serial, DSM build, hostname/IP/subnet/gateway, disk layouts, hardware switch ports, groups, approved user matrix, share permissions, M365 libraries, Cloud Sync settings and last success, Tailscale support method, dashboard URL, backup/restore status, credentials-vault references, audit/change log. **Never store actual passwords or recovery codes in a shared spreadsheet.**
+
+## PHILEXCEL HUB deployment checkpoint — 21 October 2026 (Spencer-reported SSH evidence)
+
+The seven approved local Synology groups were created and verified (`synogroup --enum local` returned 10 total including three built-in groups). After confirmation of volume allocation, Spencer ran Synology `synoshare --add` and `synoacltool -add` commands and supplied output showing **7 shares registered** via `synoshare --enum ALL`. The output showed named departmental group RW ACL entries plus `philexcelhub` and `administrators` for each newly created share. `Executive` was separately inspected earlier.
+
+| Volume | Share | Approved group | Reported creation |
+|---|---|---|---|
+| 1 | Executive | grp_executive | Created; filesystem/share ACL read back |
+| 1 | AdminHR | grp_adminhr | Created; share ACL read back |
+| 1 | FinancePurchasing | grp_finance | Created; share ACL read back |
+| 2 | Marketing | grp_marketing | Created; share ACL read back |
+| 2 | AdminMarketing | grp_adminmarketing | Created; share ACL read back |
+| 2 | Engineering | grp_engineering | Created; share ACL read back |
+| 2 | CompanyShared | grp_companyshared | Created; share ACL read back |
+
+**Not yet accepted:** independent readback of all share paths and effective access; actual SMB login and cross-department denial using two test users; staff email roster/membership approval and account provisioning; Recycle Bin and hide-unreadable settings (Executive showed both off); full disk-check completion; firewall/MFA; versioned independent backup and restore; Tailscale; SharePoint sync; dashboard deployments; old Admin-PC Z: cutover. Do not mark this project production-ready. Staff/credential details and actual device configuration evidence belong only in restricted Drive.
