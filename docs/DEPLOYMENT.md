@@ -16,4 +16,20 @@
 12. Deploy tested admin adapter, Philexcel Admin dashboard, Axon IT dashboard and Department AI-only chatbot. Authenticate every user and check role and file access on each request.
 13. UAT: onboard, change access preview/verify, disable, group isolation, chatbot unauthorized-file denial, SharePoint source URLs, sync, backup, offsite support. Collect signoff.
 
+## Approved allocation across the two Basic volumes (21 October 2026)
+
+Spencer reports that Amit approved balancing the six departmental shares evenly between the two independent volumes: three departments per volume. The seventh share, `CompanyShared`, is allocated to Volume 2. This balances the number of **departmental shares**, not guaranteed bytes or projected storage consumption. Monitor growth and review if usage differs substantially.
+
+| Volume | Storage pool | Share | Access group | Windows letter |
+|---|---|---|---|---|
+| Volume 1 | `PHILEXCEL-DISK1` | `Executive` | `grp_executive` | X: |
+| Volume 1 | `PHILEXCEL-DISK1` | `AdminHR` | `grp_adminhr` | H: |
+| Volume 1 | `PHILEXCEL-DISK1` | `FinancePurchasing` | `grp_finance` | F: |
+| Volume 2 | `PHILEXCEL-DISK2` | `Marketing` | `grp_marketing` | M: |
+| Volume 2 | `PHILEXCEL-DISK2` | `AdminMarketing` | `grp_adminmarketing` | R: |
+| Volume 2 | `PHILEXCEL-DISK2` | `Engineering` | `grp_engineering` | E: |
+| Volume 2 | `PHILEXCEL-DISK2` | `CompanyShared` | `grp_companyshared` | Z: |
+
+**Implementation status:** allocation documented, not evidence that shares exist. Verify actual Volume 1/2 placement after creating shares. Both volumes are Basic/Btrfs with no drive-failure redundancy. An independent versioned backup and tested restore remain mandatory. The existing Admin-PC Z: mapping must not be changed without separate migration and cutover approval.
+
 Private Google Drive register fields: timestamp, responsible person, NAS model/serial, DSM build, hostname/IP/subnet/gateway, disk layouts, hardware switch ports, groups, approved user matrix, share permissions, M365 libraries, Cloud Sync settings and last success, Tailscale support method, dashboard URL, backup/restore status, credentials-vault references, audit/change log. **Never store actual passwords or recovery codes in a shared spreadsheet.**
