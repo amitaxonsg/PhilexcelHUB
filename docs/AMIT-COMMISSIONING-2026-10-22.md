@@ -224,3 +224,8 @@ For detailed evidence see [daily progress / UAT handover](PHILEXCEL-DAILY-PROGRE
 - Camille's requested file read-only treatment, delete prohibition, and confidential cross-department browse visibility are **not implemented** and require separate approval and a tested ACL design.
 
 Do not represent NAS relocation, full cloud-sync conflict/restore UAT or independent backups as completed based on the above.
+
+
+### Two-item UAT confirmation — follow-up, 22 October 2026
+
+Spencer subsequently confirmed and tested: (1) Camille's DSM delegated **Local user and group management** access, and (2) the **AXON v5.7 DSM department/group-change enrollment mapping workflow**. Prior `pending` descriptions for those **specific two tasks** are superseded. This is operator-reported acceptance rather than independent new screenshot/command evidence. Camille's separate file read-only ACL requests remain unimplemented; DSM delegation still permits deletion of ordinary accounts/groups. Also outstanding: evidence of latest live v5.7 byte/hash check, client-office NAS networking, full permission-denial matrix, Cloud Sync reverse/conflict/restore UAT and versioned backup/restore.
