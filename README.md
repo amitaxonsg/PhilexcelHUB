@@ -52,3 +52,15 @@ Enrollment, Department/Linda, Axon IT and delegated Admin entry points are speci
 ## Portal implementation package
 
 The [portal source and Singapore deployment guide](portal/README.md) now includes Linda, per-user/admin AI controls, Executive all-HUB scope (Board excluded), enrollment downloads and a fixed trial starting 22 October 2026, expiring 21 November 2026 at 06:36:05 UTC+08:00. Nine local tests pass. This is source code, not a live deployed service; credentials, hosting, staff mapping, real provider tests, installer signing and device UAT are pending.
+
+
+## Latest daily handover — 22 October 2026
+
+See [Philexcel Daily Progress and UAT Handover](docs/PHILEXCEL-DAILY-PROGRESS-2026-10-22.md) for verified Windows mapping tests, cPanel portal deployment, Synology user/group access, Recycle Bin ACL audit, and remaining rollout gates.
+
+- **Verified:** Clean Windows SMB state; batch-mapped CompanyShared `Z:` with successful read/write/delete test; server-side cPanel portal tests **33 passed** at reported Git revision `17e8437`; Ian has been added to Synology `administrators` and membership read back.
+- **Configured in Git, not yet fully reverified live:** Enrollment portal downloads the exact account-local **v5.7 DSM Access Sync** Windows batch, replacing v5.6 in the route without fallback. User upload to cPanel was shown; new live download, byte/hash verification, and DSM group-change Windows UAT remain open.
+- **Delegation in progress:** Camille's DSM `Local user and group management` role was selected onscreen, but saved status and her own login were not demonstrated; the native role also permits ordinary user/group deletion. She has inherited RW in Marketing and CompanyShared; read-only access across all folders is **not granted**.
+- **Security open items:** Public UAT installer may embed staff directory; audit before distributing broadly. Check per-user effective share/Recycle Bin permissions, NAS relocation, Cloud Sync reverse/conflict/restore and independent backup.
+
+Historical preliminary status sections above are preserved as chronology, not a statement of current acceptance.
