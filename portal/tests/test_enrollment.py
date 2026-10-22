@@ -12,6 +12,11 @@ def member(client,oid='staff'):
 def test_public_guides_and_read_only_checks(server):
  _,client,_=server
  assert 'Set up or repair your office network drives' in client.get('/enroll',base_url=BASE).text
+ landing=client.get('/enroll',base_url=BASE).text
+ assert 'NAS connection not verified' in landing
+ assert 'cannot directly check your private office network' in landing
+ assert 'href="/enroll/installer"' in landing
+ assert 'Manual setup (advanced)' in landing
  # The approved file lives in the dedicated cPanel account, not in the repo.
  # In a test environment without that file, the endpoint fails closed.
  r=client.get('/enroll/installer',base_url=BASE)
