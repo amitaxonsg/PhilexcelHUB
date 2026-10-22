@@ -49,3 +49,14 @@ This is a presentation-only change to `portal/templates/enroll.html` and `portal
 Removed the permanent `NAS connection not verified` warning from the public enrollment page. This warning was not based on a live test and incorrectly suggested users on the office LAN were out of range. Replaced it with neutral `Office NAS connectivity check` guidance below the green header. The employee's **local AXON v5.6 batch installer** remains responsible for checking `PHILEXCEL-HUB` reachability and stopping safely if unavailable.
 
 No browser-side ping or NAS probing was implemented: the public cPanel-hosted site cannot execute a reliable ping from the visitor's Windows machine. The existing two-column instructions, manual mapping paths, and approved account-local v5.6 download route remain unchanged. After account-scoped Git pull, run the test suite and inspect the enrollment page. The new test checks that the static warning is absent.
+
+
+## Live download selection update — v5.7 DSM Access Sync
+
+The selected Windows installer is now `/home/philexcel/Philexcel-NAS-Setup-Repair-UAT-v5.7-DSM-Access-Sync.bat`, uploaded by the operator using cPanel File Manager. `GET /enroll/installer` serves that exact file without substituting the earlier generic build or v5.6. If the file is absent/empty, HTTP 503 is returned. The test for the endpoint checks the selected filename and exact bytes when the account-local file exists, or expects 503 if absent.
+
+The previous v5.6 account-local batch should remain available as rollback; it is not the new download. This patch does not alter NAS ACLs, account membership, or the existing landing-page layout. The uploaded v5.7 file is outside Git and has not been independently retrieved or Windows-tested in this update. Before release, validate script syntax and UAT with a controlled DSM group membership change, added/missing mappings, revocation, session conflicts and restoration.
+
+**Privacy caution:** UAT installers with embedded staff names and username mappings should not be published to unrestricted audiences. Downloadable batch contents are readable even when the script delays displaying employee profiles until after sign-in.
+
+**Deployment:** Run the account-scoped Git pull as Linux user `philexcel`, rerun Python tests, and verify live HTTPS download filename/size/checksum against the uploaded file. No changes to other cPanel accounts or web server configuration are required.
