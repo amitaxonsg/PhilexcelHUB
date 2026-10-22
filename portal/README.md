@@ -83,3 +83,12 @@ The public `/enroll` landing page offers automatic setup and a manual mapping gu
 
 Account-only deployment after Git pull: verify the uploaded file exists, is readable by `philexcel`, has expected hash/size, and the download response uses this exact filename. Run `pytest` and Windows UAT. Do not restart web servers, modify other cPanel accounts or move secrets into Git.
 
+
+
+## October 22 UAT handover and current deployment state
+
+The main repository [daily handover](../docs/PHILEXCEL-DAILY-PROGRESS-2026-10-22.md) records evidence and outstanding checks. From a production cPanel root shell, Git operations must execute as the owning `philexcel` account via `runuser -u philexcel -- git -C /home/philexcel/apps/philexcel-hub ...`, rather than adding a root safe.directory exception. Keep modifications inside this account.
+
+Latest selected download: `/home/philexcel/Philexcel-NAS-Setup-Repair-UAT-v5.7-DSM-Access-Sync.bat`. The application route deliberately fails closed if this file is absent or empty. The server's last pasted passing test result was **33 passed** at an earlier commit, not proof that v5.7's latest source, downloaded bytes or end-user mapping behavior has passed.
+
+Windows v5.7 intended behavior is to check share accessibility after NAS credentials are validated and offer repair of missing/incorrect/obsolete mappings after explicit consent. It is not yet proven by a controlled DSM group revocation/addition UAT. Previous v5.6 remains a rollback artifact, and must not be deleted. Privacy review of any embedded UAT staff register is mandatory before company-wide distribution.
