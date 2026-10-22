@@ -11,7 +11,10 @@ def member(client,oid='staff'):
 
 def test_public_guides_and_read_only_checks(server):
  _,client,_=server
- assert 'Welcome to Philexcel' in client.get('/enroll',base_url=BASE).text
+ assert 'Set up or repair your office network drives' in client.get('/enroll',base_url=BASE).text
+ r=client.get('/enroll/installer',base_url=BASE)
+ assert r.status_code==200 and r.headers['Content-Disposition'].endswith('.bat')
+ assert b'PHILEXCEL-HUB' in r.data and b'@echo off' in r.data
  assert 'not verified eligibility' in client.get('/enroll/manual',base_url=BASE).text
  for platform in ('windows','mac'):
   r=client.get('/enroll/check/'+platform,base_url=BASE)
@@ -21,7 +24,7 @@ def test_public_guides_and_read_only_checks(server):
 def test_unknown_member_can_enroll_but_has_no_eligible_drives(server):
  _,client,_=server;member(client,'unknown')
  r=client.get('/enroll',base_url=BASE)
- assert r.status_code==200 and 'Verified Staff' in r.text and 'Awaiting administrator confirmation' in r.text
+ assert r.status_code==200 and 'Manual setup' in r.text and 'Verified Staff' not in r.text
  assert '/download/windows' not in r.text
  assert client.get('/download/windows',base_url=BASE).status_code==403
  for path in ('/admin','/axon','/ai'):
@@ -30,7 +33,7 @@ def test_unknown_member_can_enroll_but_has_no_eligible_drives(server):
 def test_confirmed_member_plan_comes_from_server_not_query(server,monkeypatch):
  _,client,_=server;member(client);monkeypatch.setenv('NAS_HOST','nas.example.invalid')
  r=client.get('/enroll?department=Executive',base_url=BASE)
- assert r.status_code==200 and 'Marketing' in r.text and 'Your NAS username:</strong> Example' in r.text
+ assert r.status_code==200 and 'CompanyShared' in r.text and 'Your NAS username' not in r.text
  r=client.get('/download/windows?department=Executive',base_url=BASE)
  assert "Share='Marketing'" in r.text and "Share='Executive'" not in r.text
  assert 'Type MAP' in r.text and 'Remove-SmbMapping -LocalPath *' not in r.text
@@ -88,7 +91,7 @@ def test_valid_unregistered_tenant_member_can_finish_sign_in(server,monkeypatch)
  with client.session_transaction(base_url='https://enroll.localhost') as s: s['flow']={}
  assert client.get('/auth/callback',base_url='https://enroll.localhost').status_code==302
  r=client.get('/enroll',base_url='https://enroll.localhost')
- assert r.status_code==200 and 'New Staff' in r.text and 'Awaiting administrator confirmation' in r.text
+ assert r.status_code==200 and 'Download Windows Setup' in r.text and 'New Staff' not in r.text
 
 def test_callback_rejects_other_tenant_before_profile_lookup(server,monkeypatch):
  module,client,_=server
