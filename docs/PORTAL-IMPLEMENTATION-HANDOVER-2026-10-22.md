@@ -2,6 +2,12 @@
 
 Requested by Amit on 22 October 2026. Implement and test in this order. This document records requirements and commissioning work, not a claim that live user provisioning or health collection already works.
 
+## Status update from Spencer's 22 October on-site UAT
+
+The steps below remain the technical requirements and acceptance criteria, not an instruction to rerun already-completed production actions. Spencer deployed enrollment revision `3402b44` to the Philexcel-only application, passed 33 target-candidate Python tests plus Mac syntax validation, and privately imported 19 verified Microsoft identities. Live Microsoft enrollment for HUB and Camille passed; Camille own/shared NAS read/write and manual mapping/readability of all seven shares passed at Amit's office. Details and qualifications are recorded in [AMIT-COMMISSIONING-2026-10-22.md](AMIT-COMMISSIONING-2026-10-22.md).
+
+**Still pending:** NAS relocation and final Philexcel office IP/network validation, specific NAS-side HUB SMB identity confirmation, signed Windows helper and full conflict/rollback UAT, Mac Finder UAT, representative staff permission isolation, HUB's separately approved client portal admin role, and full Cloud Sync/restore verification. The Admin provisioning and Axon live-health phases remain unimplemented. Do not restart server-wide services or alter other cPanel accounts.
+
 ## Completed and evidenced
 
 - Amit confirmed all 18 staff mappings. NAS department/email updates and department plus Company Shared groups verified; Ian has every department. Jannie duplicate deleted, Jhojie retained; final NAS list has 21 accounts.
