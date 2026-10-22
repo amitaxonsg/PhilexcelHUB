@@ -72,6 +72,11 @@ agent access or cancel Microsoft's trial/subscription. Manage those separately.
 
 ### Remaining work
 
+Staff mapping update: 18 staff are now confirmed; fourteen newly confirmed
+memberships await application. See the resume checklist and authoritative mapping
+below; earlier statements about fifteen unconfirmed staff are historical.
+
+
 Confirm staff mapping and licences; test Linda retrieval and department denials;
 disable Teams in Microsoft UI; verify Outlook and own OneDrive searches; implement
 and test personal-context email automation; sign/test enrollment downloads; extend
@@ -105,42 +110,32 @@ backup, NAS security/alerts and approved old-drive cutover.
 - Teams excluded by Amit's instruction. Teams UI switch was already OFF in the last
   inspected screenshot; ensure it stays off and remove remaining instruction text.
 
-### Identity confirmation required before remaining memberships
-Do not assume similar initials identify these NAS users.
+### Updated staff mapping checkpoint
 
-| NAS name | Approved NAS department | Microsoft mapping status |
-|---|---|---|
-| Ian | Executive | Confirmed and applied |
-| Tess | Administration-HR | Await confirmed Microsoft account |
-| Aliza | Administration-HR | Await confirmed Microsoft account |
-| Seatiel | Administration-HR | Await confirmed Microsoft account |
-| Camille | Marketing | Confirmed and applied |
-| Chloe | Administration-Marketing | Await confirmed Microsoft account |
-| Clark | Administration-Marketing | Await confirmed Microsoft account |
-| Jhojie | Finance-Purchasing | Confirmed and applied |
-| Kevin | Finance-Purchasing | Await confirmed Microsoft account |
-| Ann | Finance-Purchasing | Await confirmed Microsoft account |
-| Jannie | Finance-Purchasing | Await confirmed Microsoft account |
-| Rose | Finance-Purchasing | Await confirmed Microsoft account |
-| Nello | Finance-Purchasing | Await confirmed Microsoft account |
-| Rommel | Engineering | Await confirmed Microsoft account |
-| Rowell | Engineering | Await confirmed Microsoft account |
-| Mavel | Engineering | Await confirmed Microsoft account |
-| Evain | Engineering | Await confirmed Microsoft account |
-| James | Engineering | Confirmed and applied |
-| Cris | Engineering | Await confirmed Microsoft account |
+See [Confirmed staff account mapping](CONFIRMED-STAFF-MAPPING-2026-10-22.md) for the complete authoritative 18-person list.
 
-15 of 19 NAS staff identities remain unmatched for SharePoint provisioning.
-Remaining enabled Microsoft directory accounts must be reconciled too; not every
-directory account should be assumed to correspond to this NAS roster or receive
-Executive access. Confirm any additional executives explicitly.
-Company-Shared currently lists only the four confirmed staff above; Hub has access
-through Owners. HR and Administration-Marketing remain empty.
+Amit supplied fourteen additional email mappings. Together with Ian, Camille,
+Jhojie and James, 18 staff identities are confirmed. Hub is the separate
+administrator. These fourteen new mappings have NOT yet been applied to
+SharePoint groups or the private portal register.
+
+Correction: jsoriano@philexcel.com is Jhojie, not Jannie. Jannie is not a confirmed
+separate person in the current list. The existing NAS account Jannie is held
+unchanged pending clarification; do not delete or reassign it.
+Anne uses existing NAS login Ann; Evann uses existing NAS login Evain.
+No account rename has been performed.
+
+Only the four previously applied staff memberships and Hub owner access are
+verified. HR and Administration-Marketing remain empty until the new memberships
+are applied. Other directory accounts and additional executives require explicit
+approval. Enrollment development and further membership changes are paused while
+the full list is finalised. Local enrollment changes are not committed or deployed.
 
 ### Next session order
-1. Obtain confirmed NAS-name / full-name / Microsoft-sign-in / department mapping
-   for the remaining 15 staff, reconcile additional directory accounts and confirm
-   executive approvals. Add approved users to own department and Company Shared.
+1. Finalise the confirmed 18-person roster, clarify the held Jannie NAS account,
+   verify the fourteen new directory matches and reconcile additional accounts and
+   executive approvals. When resumed, apply approved department and Company Shared
+   memberships and the private portal register.
 2. Audit all seven library grants, direct file/folder grants and sharing links.
    Test one regular user's own/shared success and cross-department denial.
 3. Linda: publish latest short instructions, keep Teams off, verify SharePoint
