@@ -41,3 +41,13 @@ X: Executive; H: AdminHR; R: AdminMarketing; F: FinancePurchasing; E: Engineerin
 7. Maintain private staff registry, credentials and any real internal IPs outside public Git. Preserve prior v5.6 UAT artifact for rollback.
 
 **Release status:** Windows batch proof of concept, cPanel Python tests (at documented checkpoint), and Ian admin group membership passed. Full DSM entitlement synchronization, file isolation, final live v5.7 deployment, client-office commissioning and rollout approval are pending.
+
+
+## Follow-up acceptance update — 22 October 2026
+
+Spencer reports that **two previously pending UAT items have now been confirmed and tested**:
+
+1. **Camille delegated DSM administration** — delegated Local user and group management role confirmed and tested. This is not full `administrators` membership, and the native role still includes the capability to delete ordinary users/groups.
+2. **AXON Windows v5.7 DSM Access Sync group-change UAT** — confirmed and tested per Spencer, including the intended response to changed DSM department/group permissions. The actual test logs and exact test cases were not pasted into this thread; classify as **operator-confirmed** rather than independently log-verified.
+
+The earlier pending labels for these two areas are superseded by this update. This confirmation does **not** establish Camille's separate read-only filesystem restrictions, independent DSM sign-in/MFA for Ian, NAS migration to the client office, complete all-user share denial tests, Cloud Sync reverse/conflict/restore UAT, or independent backup completion. A separate server pull, checksum and live download verification of the v5.7 endpoint are still not evidenced by terminal output in this conversation.
