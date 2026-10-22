@@ -1,0 +1,16 @@
+# Linda: Microsoft Copilot transition
+
+Amit requested removal of Gemini on 22 October 2026. The live server still needs to pull this commit. Gemini request code and local document extraction have been removed from app.py. The UI identifies Linda's Microsoft Copilot setup as pending. POST /api/chat preserves authentication, CSRF, expiry, approval and department checks, then returns 503 COPILOT_SETUP_REQUIRED without retrieving documents or calling a model. Historical provider tests were replaced by a no-provider/no-document-call test; 22 current local tests pass. This is removal/staging, not a completed Copilot integration.
+
+The dedicated Hub mailbox may own the agent/project, but its mailbox, cloud-sync access or Microsoft 365 subscription does not establish Copilot entitlement. Never use its password or shared token for staff AI queries. Each staff member must use their own Microsoft identity; department and Company Shared permissions must be completed. Board remains excluded, including for executives. Existing Copilot permission trimming alone is insufficient if the chosen integration also searches out-of-scope sources: configure the approved seven-library knowledge boundary and test explicit Board exclusion.
+
+Preferred path to assess: Copilot Studio authenticated custom agent named Linda with Hub as the approved owner; custom website authentication and SSO must be configured, with a separate agent authentication app registration where required. Verify paid capacity/pay-as-you-go or licensed entitlements before activation. A generic public iframe or no-authentication demo is not acceptable. Microsoft 365 Copilot Chat API is an alternative, currently documented as preview with per-calling-user Copilot licensing and delegated permissions; do not assume one Hub licence covers all staff or gives a drop-in web backend. Do not purchase licences or change billing without Amit's selection.
+
+References checked:
+- https://learn.microsoft.com/microsoft-365/copilot/extensibility/api/ai-services/chat/overview
+- https://learn.microsoft.com/microsoft-copilot-studio/knowledge-add-sharepoint
+- https://learn.microsoft.com/microsoft-copilot-studio/configure-sso
+
+Server cleanup after pull: remove GEMINI_API_KEY and GEMINI_MODEL from the private environment.json using an atomic write; do not print any values. Existing backups may retain historical values and remain private. No Gemini key was configured in this session. Do not uninstall packages globally or change ports, cPanel/PHP settings or other accounts. Dependencies for old extraction may remain in the account venv until separately cleaned.
+
+Next: inspect Hub licenceDetails and tenant Copilot Studio environment/capacity; select a supported route, build/publish the authenticated agent, connect approved SharePoint sources and test per-user/department boundaries, configure secure website integration, and verify citations, trial enforcement, session expiry and access revocation. Hosted portal alone is not proof the Microsoft agent is connected. Existing 30-day application trial remains unchanged and must cover any future embedded agent access too; do not expose an alternate agent channel that bypasses that control without a separate decision.

@@ -1,3 +1,5 @@
+> Current AI direction (22 October 2026): Amit requested Microsoft Copilot instead of Gemini. The Gemini generation and extraction path has been removed from the application. Linda is intentionally unavailable for answers until a supported, licensed Microsoft integration with user authentication and approved library scope is configured. Earlier Gemini deployment details below are historical and must not be followed. Enroll/Admin/Axon continue independently. See [Copilot transition](cpanel/COPILOT-TRANSITION.md).
+
 # Philexcel portals — Singapore hosting package
 
 Implementation source, not a deployed service. For the verified shared cPanel account, use [the PHP-FPM private Python adapter](cpanel/README.md). It requires no new ports, Apache modules or services. The Gunicorn/Redis method below is an alternative for other approved hosts and must not be applied to this shared server. No NGINX changes. Do not put the app, private configuration, session store or Python files in a public static document root.

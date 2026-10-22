@@ -9,7 +9,7 @@ def server(tmp_path, monkeypatch):
  for key,value in {'SESSION_SECRET':'test-only-random-session-secret','SESSION_DIRECTORY':str(tmp_path/'sessions'),
  'RATE_LIMIT_STORAGE_URI':'memory://','PORTAL_HOSTS':'localhost','ENTRA_TENANT_ID':'test-tenant',
  'ENTRA_CLIENT_ID':'test-client','ENTRA_CLIENT_SECRET':'test-secret','STAFF_CONFIG':str(private),
- 'ACCESS_DATABASE':str(tmp_path/'access.sqlite'),'GEMINI_API_KEY':'fake-test-key','GEMINI_MODEL':'test-model'}.items():
+ 'ACCESS_DATABASE':str(tmp_path/'access.sqlite')}.items():
   monkeypatch.setenv(key,value)
  sys.modules.pop('app',None)
  module=importlib.import_module('app');module.app.config['TESTING']=True
@@ -91,72 +91,14 @@ def test_provider_payload_and_secrets_not_returned(server,monkeypatch):
  r=client.get('/api/me',base_url='https://localhost')
  assert r.status_code==502 and 'SECRET-EXAMPLE' not in r.text
 
-@pytest.fixture
-def chat_providers(server,tmp_path,monkeypatch):
+def test_copilot_setup_fails_closed_without_provider_or_file_calls(server,monkeypatch):
  module,client,sign_in=server;sign_in('staff')
- config=tmp_path/'libraries.json';config.write_text(json.dumps({'Marketing':'marketing-drive','Company-Shared':'shared-drive'}))
- monkeypatch.setenv('LIBRARY_CONFIG',str(config))
- monkeypatch.setattr(module,'token',lambda:'delegated-test-token')
- seen=[]
- def fake_graph(path,access,**kwargs):
-  assert access=='delegated-test-token';seen.append(path)
-  if '/root/search' in path:
-   if 'shared-drive' in path: return {'value':[]}
-   return {'value':[{'id':'example-item','name':'policy.txt','file':{},'size':40}]}
-  return {'id':'example-item','name':'policy.txt','webUrl':'https://philexcelbusinesspark.sharepoint.com/sites/PhilexcelHUB/Marketing/policy.txt',
-   '@microsoft.graph.downloadUrl':'https://philexcelbusinesspark.sharepoint.com/download/example'}
- monkeypatch.setattr(module,'graph',fake_graph)
- class Download:
-  status_code=200
-  def __enter__(self): return self
-  def __exit__(self,*args): pass
-  def raise_for_status(self): pass
-  def iter_content(self,size): yield b'The document says: use the approved logo.'
- def download(url,**kwargs):
-  assert 'Authorization' not in kwargs.get('headers',{})
-  assert kwargs['allow_redirects'] is False
-  return Download()
- monkeypatch.setattr(module.requests,'get',download)
- class Generated:
-  def raise_for_status(self): pass
-  def json(self): return {'candidates':[{'content':{'parts':[{'text':'Use the approved logo. [1]'}]}}]}
- calls=[]
- def generate(url,**kwargs): calls.append(kwargs);return Generated()
- monkeypatch.setattr(module.requests,'post',generate)
- return module,client,seen,calls
-
-def test_document_answer_is_scoped_and_cited(chat_providers):
- module,client,seen,calls=chat_providers
- r=client.post('/api/chat',base_url='https://localhost',headers={'X-CSRF-Token':'test-csrf'},json={'question':'logo','library':'Marketing'})
- assert r.status_code==200 and r.json['answer']=='Use the approved logo. [1]'
- assert r.json['sources']==[{'title':'policy.txt','url':'https://philexcelbusinesspark.sharepoint.com/sites/PhilexcelHUB/Marketing/policy.txt'}]
- assert len(calls)==1
- assert len([x for x in seen if '/items/' in x])==3 # fetch plus checks before and after generation
- assert all('Executive' not in x and 'Board' not in x for x in seen)
- assert 'use the approved logo' in calls[0]['json']['contents'][0]['parts'][0]['text']
-
-def test_access_revoked_during_generation_discards_answer(chat_providers,monkeypatch):
- module,client,seen,calls=chat_providers
- original=module.requests.post
- def generate_then_disable(*args,**kwargs):
-  result=original(*args,**kwargs)
-  module.access_store.set('admin','staff',{'ai_enabled':False,'ai_level':'department','ai_departments':[]})
-  return result
- monkeypatch.setattr(module.requests,'post',generate_then_disable)
- r=client.post('/api/chat',base_url='https://localhost',headers={'X-CSRF-Token':'test-csrf'},json={'question':'logo','library':'Marketing'})
- assert r.status_code==403
- assert 'approved logo' not in r.text and 'sources' not in r.json
-
-def test_unrecognized_source_never_reaches_gemini(chat_providers,monkeypatch):
- module,client,seen,calls=chat_providers
- original=module.graph
- def graph_with_board_item(path,*args,**kwargs):
-  result=original(path,*args,**kwargs)
-  if '/items/' in path: result['webUrl']='https://philexcelbusinesspark.sharepoint.com/sites/PhilexcelExecutiveBoard/secret.txt'
-  return result
- monkeypatch.setattr(module,'graph',graph_with_board_item)
- r=client.post('/api/chat',base_url='https://localhost',headers={'X-CSRF-Token':'test-csrf'},json={'question':'logo','library':'Marketing'})
- assert r.status_code==200 and r.json['sources']==[] and calls==[]
+ monkeypatch.setattr(module,'trial_state',lambda:{'expired':False})
+ monkeypatch.setattr(module,'token',lambda:pytest.fail('No document token before setup'))
+ monkeypatch.setattr(module.requests,'post',lambda *a,**k:pytest.fail('No external model call'))
+ r=client.post('/api/chat',base_url='https://localhost',headers={'X-CSRF-Token':'test-csrf'},json={'question':'policy','library':'Marketing'})
+ assert r.status_code==503 and r.json['code']=='COPILOT_SETUP_REQUIRED' and r.json['sources']==[]
+ assert 'Microsoft Copilot' in client.get('/ai',base_url='https://localhost').text
 
 def test_certificate_credential_and_incomplete_config_fail_closed(server, tmp_path, monkeypatch):
  module,_,_=server
