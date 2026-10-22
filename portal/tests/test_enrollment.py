@@ -12,9 +12,11 @@ def member(client,oid='staff'):
 def test_public_guides_and_read_only_checks(server):
  _,client,_=server
  assert 'Set up or repair your office network drives' in client.get('/enroll',base_url=BASE).text
+ # The approved file lives in the dedicated cPanel account, not in the repo.
+ # In a test environment without that file, the endpoint fails closed.
  r=client.get('/enroll/installer',base_url=BASE)
- assert r.status_code==200 and r.headers['Content-Disposition'].endswith('.bat')
- assert b'PHILEXCEL-HUB' in r.data and b'@echo off' in r.data
+ assert r.status_code==503
+ assert b'approved Windows installer is temporarily unavailable' in r.data
  assert 'not verified eligibility' in client.get('/enroll/manual',base_url=BASE).text
  for platform in ('windows','mac'):
   r=client.get('/enroll/check/'+platform,base_url=BASE)
