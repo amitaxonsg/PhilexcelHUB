@@ -161,10 +161,10 @@ def enrollment():
 @app.get('/enroll/installer')
 @limiter.limit('30 per minute')
 def enrollment_installer():
- # Serve the administrator-selected, account-local AXON UAT v5.6 release.
+ # Serve the administrator-selected, account-local AXON UAT v5.7 DSM Access Sync release.
  # Never fall back to a different installer if the selected file is unavailable.
  # Access to this public endpoint does not establish NAS access rights.
- filename = 'Philexcel-NAS-Setup-Repair-UAT-v5.6-AXON.bat'
+ filename = 'Philexcel-NAS-Setup-Repair-UAT-v5.7-DSM-Access-Sync.bat'
  installer = Path('/home/philexcel') / filename
  if not installer.is_file() or not installer.stat().st_size:
   abort(503, 'The approved Windows installer is temporarily unavailable. Contact AXON support.')
