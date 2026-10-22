@@ -29,7 +29,7 @@ Spencer's initial pilot remains attributed in SPENCER-HANDOVER.md and NAS-HANDOV
 
 ## Next work
 
-See PORTAL-IMPLEMENTATION-HANDOVER-2026-10-22.md. Priority: enrollment deployment/private register/device UAT; then admin provisioning; then Axon health.
+See PORTAL-IMPLEMENTATION-HANDOVER-2026-10-22.md for acceptance criteria. Enrollment code deployment and private 19-identity register import completed on 22 October (see Spencer addendum); priority now is office-network/device/security acceptance after NAS relocation, then Admin provisioning, then Axon health.
 Keep all changes inside the philexcel account. No global packages, web-server changes, service restarts, new ports or other-domain changes. Preserve main-domain redirect, data shortcut, email DNS and origin SSL.
 
 ## Earlier commissioning record (historical)
@@ -182,7 +182,7 @@ configuration for rollback; never expose private keys in Git/email/public_html.
 
 | Test | Observation / outcome |
 |---|---|
-| NAS LAN | DSM TCP/5001 and SMB TCP/445 reachable at temporary office IP `192.168.0.207` |
+| NAS LAN | DSM TCP/5001 and SMB TCP/445 reachable at temporary office IP the NAS's temporary Amit-office private IP (recorded in the restricted configuration register) |
 | NAS folders | Seven shares visible: Executive, AdminHR, AdminMarketing, Engineering, FinancePurchasing, Marketing, CompanyShared |
 | Camille SMB/DSM | NAS username `Camille` signed in; Marketing and CompanyShared accessible, test folders/files created and edit/save/reopen reported successful. Restricted AdminHR/Executive produced access-denied/credential prompts; complete per-share deny matrix not yet evidenced |
 | HUB portal plan | Executive enrollment offered seven shares and expected drive letters X:, H:, M:, R:, F:, E:, Z:; DSM permission preview displayed RW for seven shares |
