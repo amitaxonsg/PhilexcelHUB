@@ -17,11 +17,18 @@ def test_public_guides_and_read_only_checks(server):
  assert 'cannot directly check your private office network' in landing
  assert 'href="/enroll/installer"' in landing
  assert 'Manual setup (advanced)' in landing
- # The approved file lives in the dedicated cPanel account, not in the repo.
- # In a test environment without that file, the endpoint fails closed.
+ # The selected installer is account-local, not part of the Git checkout.
+ # On the cPanel server it exists (200); on CI it may be absent (503).
+ from pathlib import Path
+ selected=Path('/home/philexcel/Philexcel-NAS-Setup-Repair-UAT-v5.6-AXON.bat')
  r=client.get('/enroll/installer',base_url=BASE)
- assert r.status_code==503
- assert b'approved Windows installer is temporarily unavailable' in r.data
+ if selected.is_file() and selected.stat().st_size:
+  assert r.status_code==200
+  assert r.headers['Content-Disposition'].endswith('Philexcel-NAS-Setup-Repair-UAT-v5.6-AXON.bat')
+  assert r.data==selected.read_bytes()
+ else:
+  assert r.status_code==503
+  assert b'approved Windows installer is temporarily unavailable' in r.data
  assert 'not verified eligibility' in client.get('/enroll/manual',base_url=BASE).text
  for platform in ('windows','mac'):
   r=client.get('/enroll/check/'+platform,base_url=BASE)
