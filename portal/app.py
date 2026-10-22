@@ -153,18 +153,21 @@ def enrollment_view():
 
 @app.get('/enroll')
 def enrollment():
- session.setdefault('csrf',secrets.token_urlsafe(32))
- if not session.get('oid'):
-  return render_template('enroll.html',signed_in=False,csrf=session['csrf'],nas=os.environ.get('NAS_HOST',''),departments=DEPARTMENTS)
- if not session.get('enroll_member'):
-  return redirect(url_for('login'))
- p,approved,plan=enrollment_view()
- profile=session.get('enroll_profile',{})
- return render_template('enroll.html',signed_in=True,approved=approved,plan=plan,
-  name=profile.get('displayName') or session.get('name'),email=profile.get('mail') or profile.get('userPrincipalName'),
-  department=', '.join(p.get('departments',[])) if approved else 'Awaiting administrator confirmation',
-  nas_user=p.get('nas_username','') if approved else '',nas=os.environ.get('NAS_HOST',''),
-  csrf=session['csrf'],departments=DEPARTMENTS)
+ # Public instructions contain no staff register, credentials or entitlement data.
+ # The Singapore host cannot attest a visitor's private LAN membership.
+ session.setdefault('csrf', secrets.token_urlsafe(32))
+ return render_template('enroll.html', csrf=session['csrf'])
+
+@app.get('/enroll/installer')
+@limiter.limit('30 per minute')
+def enrollment_installer():
+ # Generic local-only UAT assistant. The NAS enforces share permissions.
+ # Never publish the internal staff lookup batch here.
+ filename = 'Philexcel-NAS-Setup-Repair.bat'
+ return Response((BASE/'downloads'/filename).read_bytes(),
+  mimetype='application/octet-stream',
+  headers={'Content-Disposition':'attachment; filename='+filename,
+           'X-Content-Type-Options':'nosniff'})
 
 @app.get('/enroll/manual')
 def enrollment_manual():
