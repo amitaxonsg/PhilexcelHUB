@@ -79,6 +79,93 @@ the private portal register to approved staff; connect live administration/suppo
 only when commissioned; complete sync reverse-direction and restore UAT, independent
 backup, NAS security/alerts and approved old-drive cutover.
 
+## Resume checklist — completed and pending
+
+### Completed with reported evidence
+- Spencer: initial Marketing NAS pilot, create/upload/delete and restore test;
+  original attribution and notes preserved.
+- Amit: 19 first-name NAS staff accounts, professional department groups, own
+  department plus Company Shared permissions, Hub administrator email and branding.
+- Representative Tess (HR) and James (Engineering) SMB own/shared read/write tests
+  passed; other department shares denied in the pasted tests.
+- Seven SharePoint HUB libraries created with unique permissions and versioning;
+  Board excluded. Seven bidirectional Cloud Sync tasks reported configured.
+  Company Shared NAS-to-cloud test file confirmed, not full sync UAT.
+- QuickConnect remote NAS access and data.philexcel.com SharePoint shortcut reported
+  working. Four account-only portal entry points published.
+- Certificate-based portal Microsoft authentication, private configuration and
+  daily account-only renewal check installed. Live certificate rotation not tested.
+- Gemini removed; Microsoft 365 Linda agent created, org-wide chat sharing enabled,
+  seven SharePoint sources visible in saved settings, portal launch link deployed.
+- Server tests at commit 648774f: 22 passed. Later documentation/UI wording commits
+  need pulling; no later target test result has been supplied.
+- Confirmed SharePoint accounts assigned: Hub owner; Ian executive; Camille
+  Marketing; Jhojie Finance-Purchasing; James Engineering. Executive group granted
+  Contribute across all seven libraries; Owners Full Control.
+- Teams excluded by Amit's instruction. Teams UI switch was already OFF in the last
+  inspected screenshot; ensure it stays off and remove remaining instruction text.
+
+### Identity confirmation required before remaining memberships
+Do not assume similar initials identify these NAS users.
+
+| NAS name | Approved NAS department | Microsoft mapping status |
+|---|---|---|
+| Ian | Executive | Confirmed and applied |
+| Tess | Administration-HR | Await confirmed Microsoft account |
+| Aliza | Administration-HR | Await confirmed Microsoft account |
+| Seatiel | Administration-HR | Await confirmed Microsoft account |
+| Camille | Marketing | Confirmed and applied |
+| Chloe | Administration-Marketing | Await confirmed Microsoft account |
+| Clark | Administration-Marketing | Await confirmed Microsoft account |
+| Jhojie | Finance-Purchasing | Confirmed and applied |
+| Kevin | Finance-Purchasing | Await confirmed Microsoft account |
+| Ann | Finance-Purchasing | Await confirmed Microsoft account |
+| Jannie | Finance-Purchasing | Await confirmed Microsoft account |
+| Rose | Finance-Purchasing | Await confirmed Microsoft account |
+| Nello | Finance-Purchasing | Await confirmed Microsoft account |
+| Rommel | Engineering | Await confirmed Microsoft account |
+| Rowell | Engineering | Await confirmed Microsoft account |
+| Mavel | Engineering | Await confirmed Microsoft account |
+| Evain | Engineering | Await confirmed Microsoft account |
+| James | Engineering | Confirmed and applied |
+| Cris | Engineering | Await confirmed Microsoft account |
+
+15 of 19 NAS staff identities remain unmatched for SharePoint provisioning.
+Remaining enabled Microsoft directory accounts must be reconciled too; not every
+directory account should be assumed to correspond to this NAS roster or receive
+Executive access. Confirm any additional executives explicitly.
+Company-Shared currently lists only the four confirmed staff above; Hub has access
+through Owners. HR and Administration-Marketing remain empty.
+
+### Next session order
+1. Obtain confirmed NAS-name / full-name / Microsoft-sign-in / department mapping
+   for the remaining 15 staff, reconcile additional directory accounts and confirm
+   executive approvals. Add approved users to own department and Company Shared.
+2. Audit all seven library grants, direct file/folder grants and sharing links.
+   Test one regular user's own/shared success and cross-department denial.
+3. Linda: publish latest short instructions, keep Teams off, verify SharePoint
+   retrieval/citations in a fresh chat. Previous responses claimed no source access;
+   retrieval is not yet proved despite configured sources.
+4. Verify appropriate Copilot licences per participating user; only Hub's trial
+   assignment is confirmed. Review trial end/recurring billing separately.
+5. Enable/test Outlook knowledge and confirm own OneDrive scope if required.
+   Owner knowledge settings must not expose another employee's personal sources.
+6. Implement separate mailbox workflow for 15-minute checks, exact philexcel.com
+   sender filtering, trusted identity checks, personal-context authorisation,
+   protected source links, recipient controls, draft commissioning and audit.
+   No email monitor or automatic reply service currently runs.
+7. Enroll: populate private staff object-ID/NAS mapping; sign Windows installer,
+   test Windows/Mac and phone instructions, backup/restore existing mappings and
+   obtain old Z: cutover approval. No indiscriminate unmapping.
+8. Admin/Axon: distinguish current guidance/settings from unconnected live NAS/
+   SharePoint provisioning and health reporting. Add only authorised functions.
+9. Complete all seven sync mappings' reverse-edit/conflict/delete/restore UAT,
+   recycle-bin admin restore, independent backup, NAS MFA/alerts/UPS/disk checks.
+10. Verify branded NAS shortcut and origin SSL renewal, renewal-job health and
+    controlled certificate rotation. Keep all changes within philexcel account.
+11. Activate four portals for staff only after the above relevant checks. Portal
+    and direct Microsoft agent access/trial controls remain separate.
+
 ## Earlier commissioning record (historical)
 
 ## Addresses and hosting
