@@ -35,3 +35,10 @@ Amit explicitly selected the previously tested `Philexcel-NAS-Setup-Repair-UAT-v
 
 After deploying the new Git revision, validate file existence, ownership, response attachment filename, byte count and checksum against the approved upload before announcing release. New endpoint code and landing page changes do not take effect until pulled to the server; no server-side pull is claimed in this Git update.
 
+
+
+## Enrollment network advisory patch
+
+The green enrollment introduction now has a prominent, accessible `NAS connection not verified` notice immediately underneath it. It explains that employees should join the approved office LAN/Wi-Fi or contact support, while keeping download and manual instructions visible. The notice deliberately does **not** claim a successful or failed live LAN probe. NAS reachability is checked by the Windows batch file after download, not by the remote Singapore-hosted web browser.
+
+This is a presentation-only change to `portal/templates/enroll.html` and `portal/static/style.css`, plus an enrollment test assertion. The approved v5.6 account-local batch download route, batch file, NAS permissions, and other portals are unchanged. Apply by fast-forward pulling main as account user `philexcel`, running the existing test suite, and checking `https://enroll.philexcel.com/enroll`. Do not modify other hosting accounts, server settings or DNS.
