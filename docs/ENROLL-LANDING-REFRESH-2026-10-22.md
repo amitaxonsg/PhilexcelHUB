@@ -26,3 +26,12 @@ X: Executive; H: AdminHR; R: AdminMarketing; F: FinancePurchasing; E: Engineerin
 7. Roll back only the account's portal files if tests fail.
 
 **Deployment state:** Git changes committed; Axon server pull, live browser rendering, and new Windows script UAT were not performed from this conversation. No remote shell or hosting-account deployment session was connected.
+
+## October 22 installer selection correction
+
+Amit explicitly selected the previously tested `Philexcel-NAS-Setup-Repair-UAT-v5.6-AXON.bat`, uploaded through cPanel File Manager to `/home/philexcel/`. The application `/enroll/installer` endpoint now serves **that exact server-local file** rather than the alternate generic Git batch file. There is no fallback; missing/empty file returns 503. Historical generic Git batch remains as a rollback/development artifact, not the live download.
+
+**Security caution:** v5.6 UAT may embed a readable staff/NAS username directory. Public browser access to the batch can expose that directory; NAS password/ACL validation within the script does not protect text inside downloaded script. Perform explicit privacy approval or remove embedded staff register before general distribution. A public site cannot reliably attest same-LAN presence.
+
+After deploying the new Git revision, validate file existence, ownership, response attachment filename, byte count and checksum against the approved upload before announcing release. New endpoint code and landing page changes do not take effect until pulled to the server; no server-side pull is claimed in this Git update.
+
