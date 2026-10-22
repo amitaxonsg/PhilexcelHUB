@@ -33,7 +33,7 @@ Hub: hub@philexcel.com; NAS administrator login philexcelhub. Hub owner access i
 - Anne retains NAS login Ann; Evann retains NAS login Evain. Their display names and email mappings are confirmed.
 - All 18 staff NAS email/department updates and own-department plus Company-Shared memberships verified in Amit's terminal output. Ian additionally belongs to every department group.
 - Full confirmed SharePoint roster membership script reported completed by Amit in PowerShell 7. Hub remains owner; Executive has Contribute across all seven HUB libraries.
-- Private enrollment-register population is pending. See PORTAL-IMPLEMENTATION-HANDOVER-2026-10-22.md for verified object-ID export and private import.
-- Windows/Mac enrollment UAT, SharePoint effective-permission tests and direct-grant/sharing-link review remain pending. Membership alone does not certify access isolation.
+- Enrollment register completed 22 October by Spencer: 18 staff plus HUB verified against the correct Microsoft tenant (19 unique enabled Member identities), privately imported into the portal, and post-import HUB and Camille Microsoft enrollment sign-ins passed. The server-side importer preserved existing portal roles; HUB's separate admin role still requires explicit authorization. See AMIT-COMMISSIONING-2026-10-22.md for evidence.
+- Spencer's **manual** Windows SMB mapping and readability tests passed for seven shares at Amit's office on 22 October; Camille's own/shared read/write passed. Full signed Windows helper, Mac Finder, office-network workstation UAT, per-user effective permission/denial tests, and SharePoint direct-grant/sharing-link review remain pending. Membership and manual mappings alone do not certify access isolation.
 - Do not assign additional directory accounts or executives by inference. Do not put passwords in Git.
 
