@@ -42,3 +42,10 @@ After deploying the new Git revision, validate file existence, ownership, respon
 The green enrollment introduction now has a prominent, accessible `NAS connection not verified` notice immediately underneath it. It explains that employees should join the approved office LAN/Wi-Fi or contact support, while keeping download and manual instructions visible. The notice deliberately does **not** claim a successful or failed live LAN probe. NAS reachability is checked by the Windows batch file after download, not by the remote Singapore-hosted web browser.
 
 This is a presentation-only change to `portal/templates/enroll.html` and `portal/static/style.css`, plus an enrollment test assertion. The approved v5.6 account-local batch download route, batch file, NAS permissions, and other portals are unchanged. Apply by fast-forward pulling main as account user `philexcel`, running the existing test suite, and checking `https://enroll.philexcel.com/enroll`. Do not modify other hosting accounts, server settings or DNS.
+
+
+## Follow-up correction: connectivity status (22 October 2026)
+
+Removed the permanent `NAS connection not verified` warning from the public enrollment page. This warning was not based on a live test and incorrectly suggested users on the office LAN were out of range. Replaced it with neutral `Office NAS connectivity check` guidance below the green header. The employee's **local AXON v5.6 batch installer** remains responsible for checking `PHILEXCEL-HUB` reachability and stopping safely if unavailable.
+
+No browser-side ping or NAS probing was implemented: the public cPanel-hosted site cannot execute a reliable ping from the visitor's Windows machine. The existing two-column instructions, manual mapping paths, and approved account-local v5.6 download route remain unchanged. After account-scoped Git pull, run the test suite and inspect the enrollment page. The new test checks that the static warning is absent.
