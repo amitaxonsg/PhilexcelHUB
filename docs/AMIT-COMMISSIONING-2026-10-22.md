@@ -8,7 +8,7 @@ Spencer's initial pilot remains attributed in SPENCER-HANDOVER.md and NAS-HANDOV
 - Amit reported the full confirmed SharePoint membership script completed in PowerShell 7. Hub remains owner; Executive has Contribute across all seven HUB libraries. See CONFIRMED-STAFF-MAPPING-2026-10-22.md.
 - Seven SharePoint libraries have unique permissions/versioning. Seven bidirectional sync tasks reported configured; Company Shared test file reached cloud. Full reverse-edit/conflict/delete/restore UAT remains pending.
 - Tess HR and James Engineering own/shared SMB tests passed; cross-department tests denied. Effective access for every user and direct sharing grants still require review.
-- Four account-only PHP-FPM/private Python portal entry points deployed previously; target tests then passed 22 tests. New enrollment code passed 33 local tests; deployment, private register population and real device/sign-in UAT pending.
+- Four account-only PHP-FPM/private Python portal entry points remain in place. Enrollment revision 3402b44 was fast-forward deployed by Spencer on 22 October; 33 target-candidate Python tests and Mac shell syntax passed. The private register was imported with 19 identities; HUB and Camille live Microsoft enrollment passed. See the dated Spencer UAT addendum below for exact scope and remaining tests.
 - Enrollment accepts valid tenant members without a shared enrollment password. Confirmed private records supply folder eligibility; unmatched members get a confirmation-pending message. Public manual helpers grant no permissions.
 - Helpers check existing connections and require explicit continuation. Matching/unrelated mappings are kept. Windows signing and Windows/Mac replacement/rollback UAT pending.
 - Portal admin roles are separate from SharePoint ownership. Confirm Hub's admin role privately; importing enrollment records preserves existing roles.
@@ -159,3 +159,54 @@ configuration for rollback; never expose private keys in Git/email/public_html.
    seven sync/restore tests, NAS security/alerts/UPS and independent backup.
 
 
+
+
+## Spencer on-site Enrollment commissioning addendum — 22 October 2026
+
+**Evidence source:** Spencer's terminal outputs and browser/DSM screenshots from on-site testing at Amit's office. NAS currently at Amit's office; planned relocation to Philexcel on 23 October 2026. This section supersedes earlier *pending deployment/import* status, while preserving prior attribution to Amit and Spencer.
+
+### Deployment and register — completed
+
+| Check | Result / evidence |
+|---|---|
+| Account isolation | Work performed as Linux user `philexcel` for application operations, under `/home/philexcel`; no reported global service restarts or root configuration changes |
+| Git | Live branch `main` fast-forwarded from `fa7afa8` to `3402b44329ac49452da2be7f6583f0aecf4243a8`; tracked files clean; existing untracked `.venv/` retained |
+| Candidate checks | 33 pytest cases passed in 2.20 seconds; `bash -n downloads/Enroll-Mac.command` passed; existing Python 3.12.12 used |
+| Microsoft identities | Authorized Graph export verified 18 staff plus HUB as enabled tenant members; 19 unique immutable IDs |
+| Register security | Private `enrollment-import.json`, owned by `philexcel` and permission `0600`, outside `public_html`; 19 JSON records and 19 unique IDs verified |
+| Import | `portal/cpanel/import_enrollment.py` reported PASS; preserved existing portal roles; generated private `staff-before-enrollment-20261022T050647-2ea9b8.json` backup |
+| Staff registry result | 19 entries total; HUB and Camille both enabled and matched to NAS usernames `philexcelhub` / `Camille`. Both had empty portal role arrays `[]` after import |
+| Post-deployment web | Enrollment welcome page loaded over HTTPS; HUB and Camille Microsoft sign-ins displayed personalized enrollment instead of confirmation-pending page |
+
+### NAS and Windows UAT — performed at Amit's office
+
+| Test | Observation / outcome |
+|---|---|
+| NAS LAN | DSM TCP/5001 and SMB TCP/445 reachable at temporary office IP `192.168.0.207` |
+| NAS folders | Seven shares visible: Executive, AdminHR, AdminMarketing, Engineering, FinancePurchasing, Marketing, CompanyShared |
+| Camille SMB/DSM | NAS username `Camille` signed in; Marketing and CompanyShared accessible, test folders/files created and edit/save/reopen reported successful. Restricted AdminHR/Executive produced access-denied/credential prompts; complete per-share deny matrix not yet evidenced |
+| HUB portal plan | Executive enrollment offered seven shares and expected drive letters X:, H:, M:, R:, F:, E:, Z:; DSM permission preview displayed RW for seven shares |
+| Windows mapping | Spencer's normal Windows session mapped all seven shares using `net use ... /persistent:no`; each mapped drive reported OK and `Test-Path` true; subsequent `Get-ChildItem` readability passed for all seven |
+| Windows SMB diagnostic | SMB 3.1.1. `Get-SmbConnection` displayed Windows account `Amit1\\Spencer`, which does **not** independently prove NAS-side authentication as `philexcelhub`. Elevated PowerShell did not show normal-session drive letters (UAC session separation); normal session checks passed |
+| Script signing | Downloaded `Check-Drives-Windows.ps1` blocked by workstation execution policy because it was unsigned. Built-in read-only PowerShell and `net use` checks used instead; policy was not bypassed |
+| Old X: mapping | Disconnected `\\\\onepro-nas\\One Pro IT` mapping was manually removed by Spencer before temporary X: mapping test; no wildcard unmapping instructed |
+
+**Scope conclusion:** Spencer's local connectivity, enrollment, manual mapping and mapped-drive readability tests passed. This does **not** constitute full rollout acceptance, complete mapping-helper UAT or proof of NAS-side SMB identity. No claim of seven-drive write UAT is made; Camille's own/shared read/write is a separate documented test.
+
+### Items still open before full staff rollout
+
+1. Relocate NAS to Philexcel office on 23 October 2026; verify actual office IP, reachability, office connectivity and update account-private NAS host configuration only if needed. Retest portal instructions/mappings after relocation.
+2. Verify NAS-side SMB authentication specifically as `philexcelhub`, without relying on the Windows `Amit1\\Spencer` display value or mixed prior SMB sessions.
+3. Test regular staff sign-in, own/shared RW, cross-department denial, and per-user effective permissions on actual Philexcel devices; separately test Ian executive access.
+4. Sign Windows helper and test check-only / explicit MAP, existing matching mappings, conflicts, cancellation, wrong credentials, offline NAS, and recovery with normal execution policy. Test Mac Finder helper and manual handling of old volumes. No blanket unmapping.
+5. Confirm HUB's separately authorized client portal `admin` role; HUB's imported record currently has `roles: []`. Do not auto-grant roles during enrollment.
+6. Validate Cloud Sync in both directions, conflict/delete/restore behavior, admin recycle-bin restore, independent backups and alerts. The seven tasks being configured is not equivalent to full sync UAT.
+7. Keep Admin Portal provisioning and Axon live health connector as **future separate phases**; no claim they are connected.
+
+### Production boundaries and artifacts
+
+- Production shared WHM/cPanel server hosts other clients: no root-level configuration changes, global installations, web-service restarts, new ports, other accounts or DNS changes in this work.
+- Philexcel private configuration backup was verified in `/home/philexcel/.config/philexcel-hub/pre-enrollment-20261022-123705` for `environment.json`, `staff.json`, `libraries.json` before deployment. Earlier historical backups were not treated as sufficient rollback evidence.
+- Two attempted SQLite backup commands failed due to incompatible system `python3` SQLite API; no successful SQLite backup was established. Do not interpret these failed attempts as database corruption or as completion of independent backup requirements. No further database operation was required for the enrollment deployment.
+- Generated identity JSON and private configuration must stay outside Git, email attachments and public web roots. Preserve secrets and role separation.
+- Git documentation update alone does not deploy application code or change portal access.
