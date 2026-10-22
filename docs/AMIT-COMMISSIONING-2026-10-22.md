@@ -210,3 +210,17 @@ configuration for rollback; never expose private keys in Git/email/public_html.
 - Two attempted SQLite backup commands failed due to incompatible system `python3` SQLite API; no successful SQLite backup was established. Do not interpret these failed attempts as database corruption or as completion of independent backup requirements. No further database operation was required for the enrollment deployment.
 - Generated identity JSON and private configuration must stay outside Git, email attachments and public web roots. Preserve secrets and role separation.
 - Git documentation update alone does not deploy application code or change portal access.
+
+
+## End-of-day supplement — 22 October 2026
+
+For detailed evidence see [daily progress / UAT handover](PHILEXCEL-DAILY-PROGRESS-2026-10-22.md). This supplement updates earlier commissioning checkpoints without retroactively changing historical test results.
+
+- Windows batch mapping of CompanyShared to `Z:` passed Explorer visibility, SMB OK, Test-Path, directory listing and temporary file write/read/delete.
+- cPanel account-only Git pull and 33 application tests passed at reported earlier `17e8437` checkpoint. A later Git change targets the account-uploaded AXON v5.7 DSM Access Sync batch; the server pull, download byte/hash and v5.7 Windows permission-change tests were **not yet reported complete**.
+- DSM `administrators` group readback confirmed Ian added alongside built-in admin and philexcelhub.
+- Camille confirmed in Marketing and Company-Shared. DSM delegated Local user/group management option was selected; the screenshot does not confirm saved state. This native delegated role permits ordinary account/group deletion. Full DSM administration was not granted to Camille.
+- All seven NAS share-path and ACL readbacks completed; departmental RW groups confirmed, Recycle Bins enabled and `#recycle` entries contained broad `everyone` ACLs. Parent share ACLs may still restrict access; do not infer actual cross-department exposure without effective SMB access testing.
+- Camille's requested file read-only treatment, delete prohibition, and confidential cross-department browse visibility are **not implemented** and require separate approval and a tested ACL design.
+
+Do not represent NAS relocation, full cloud-sync conflict/restore UAT or independent backups as completed based on the above.
