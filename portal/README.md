@@ -92,3 +92,8 @@ The main repository [daily handover](../docs/PHILEXCEL-DAILY-PROGRESS-2026-10-22
 Latest selected download: `/home/philexcel/Philexcel-NAS-Setup-Repair-UAT-v5.7-DSM-Access-Sync.bat`. The application route deliberately fails closed if this file is absent or empty. The server's last pasted passing test result was **33 passed** at an earlier commit, not proof that v5.7's latest source, downloaded bytes or end-user mapping behavior has passed.
 
 Windows v5.7 intended behavior is to check share accessibility after NAS credentials are validated and offer repair of missing/incorrect/obsolete mappings after explicit consent. It is not yet proven by a controlled DSM group revocation/addition UAT. Previous v5.6 remains a rollback artifact, and must not be deleted. Privacy review of any embedded UAT staff register is mandatory before company-wide distribution.
+
+
+### v5.7 UAT status update — 22 October 2026
+
+Spencer confirms the **v5.7 DSM department/group access synchronization** has been tested, superseding the earlier `not yet proven by a controlled DSM group change` wording. Mark this **operator-confirmed**, because individual logs/test cases were not supplied with the follow-up. This report does not independently verify that the latest account-local v5.7 download was pulled and byte-checked on production after the latest Git changes. Retain v5.6 for rollback; employee-register privacy review remains a production requirement.
