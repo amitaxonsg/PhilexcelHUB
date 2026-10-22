@@ -98,7 +98,20 @@ def test_copilot_setup_fails_closed_without_provider_or_file_calls(server,monkey
  monkeypatch.setattr(module.requests,'post',lambda *a,**k:pytest.fail('No external model call'))
  r=client.post('/api/chat',base_url='https://localhost',headers={'X-CSRF-Token':'test-csrf'},json={'question':'policy','library':'Marketing'})
  assert r.status_code==503 and r.json['code']=='COPILOT_SETUP_REQUIRED' and r.json['sources']==[]
- assert 'Microsoft Copilot' in client.get('/ai',base_url='https://localhost').text
+ page=client.get('/ai',base_url='https://localhost')
+ assert page.status_code==200
+ assert 'titleId=T_41918509-ad55-6c25-fb32-5c78e09bfeab' in page.text
+ assert 'Open Linda in Microsoft 365' in page.text
+ assert '<form id="chat">' not in page.text
+ assert "not disabled by this portal" in page.text
+ monkeypatch.setattr(module,'trial_state',lambda:{'expired':True})
+ expired=client.get('/ai',base_url='https://localhost')
+ assert 'Trial Expired' in expired.text
+ assert 'titleId=T_41918509-ad55-6c25-fb32-5c78e09bfeab' not in expired.text
+ monkeypatch.setattr(module,'trial_state',lambda:{'expired':False})
+ module.access_store.set('admin','staff',{'ai_enabled':False})
+ disabled=client.get('/ai',base_url='https://localhost')
+ assert 'titleId=T_41918509-ad55-6c25-fb32-5c78e09bfeab' not in disabled.text
 
 def test_certificate_credential_and_incomplete_config_fail_closed(server, tmp_path, monkeypatch):
  module,_,_=server
