@@ -72,10 +72,10 @@ def test_admin_save_needs_csrf_and_executive_confirmation(server):
  assert audit[0]['after']['ai_level']=='executive'
  assert client.get('/admin',base_url='https://localhost').status_code==200
 
-def test_enrollment_download_requires_gate_and_contains_only_approved_shares(server,monkeypatch):
+def test_enrollment_download_requires_verified_member_and_contains_only_approved_shares(server,monkeypatch):
  _,client,sign_in=server;sign_in('staff');monkeypatch.setenv('NAS_HOST','nas.example.invalid')
  assert client.get('/download/windows',base_url='https://localhost').status_code==403
- with client.session_transaction(base_url='https://localhost') as s: s['gate_enroll']=True
+ with client.session_transaction(base_url='https://localhost') as s: s['enroll_member']=True
  r=client.get('/download/windows',base_url='https://localhost')
  assert r.status_code==200
  assert "Share='Marketing'; Letter='M'" in r.text and "Share='CompanyShared'; Letter='Z'" in r.text
@@ -124,3 +124,4 @@ def test_certificate_credential_and_incomplete_config_fail_closed(server, tmp_pa
  assert result['client_credential']=={'private_key':'private-test-key','public_certificate':'public-test-certificate'}
  monkeypatch.delenv('ENTRA_PRIVATE_KEY_PATH')
  with pytest.raises(ValueError): module.entra()
+

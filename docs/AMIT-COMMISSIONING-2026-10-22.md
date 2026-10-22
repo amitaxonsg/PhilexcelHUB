@@ -1,165 +1,36 @@
-# Philexcel HUB — Amit commissioning record, 22 October 2026
+# Philexcel HUB — latest commissioning checkpoint, 22 October 2026
 
-This is the latest checkpoint, supplementary to Spencer's preserved notes in
-SPENCER-HANDOVER.md and the 21 October Marketing pilot in NAS-HANDOVER-2026-10-21.md.
-Results are from Amit's pasted terminal output or explicitly stated confirmations;
-no independent live-site certification is implied.
+Spencer's initial pilot remains attributed in SPENCER-HANDOVER.md and NAS-HANDOVER-2026-10-21.md. Earlier snapshots below are historical, not current instructions.
 
-## Current handover checkpoint — 22 October 2026
+## Current status
 
-This checkpoint supersedes earlier pending/development statements below.
-Teams is not used and is removed from Linda's approved scope. Turn OFF Teams in
-Linda's Microsoft 365 Knowledge settings and remove Teams from her instructions;
-this UI change has not been independently confirmed. No Teams licence purchase
-or deployment is planned.
+- 18 staff confirmed plus Hub administrator. NAS email/department updates and memberships completed; Ian has all department shares. Duplicate Jannie removed, Jhojie retained. Final NAS count: 21 local accounts including admin, guest and philexcelhub.
+- Amit reported the full confirmed SharePoint membership script completed in PowerShell 7. Hub remains owner; Executive has Contribute across all seven HUB libraries. See CONFIRMED-STAFF-MAPPING-2026-10-22.md.
+- Seven SharePoint libraries have unique permissions/versioning. Seven bidirectional sync tasks reported configured; Company Shared test file reached cloud. Full reverse-edit/conflict/delete/restore UAT remains pending.
+- Tess HR and James Engineering own/shared SMB tests passed; cross-department tests denied. Effective access for every user and direct sharing grants still require review.
+- Four account-only PHP-FPM/private Python portal entry points deployed previously; target tests then passed 22 tests. New enrollment code passed 33 local tests; deployment, private register population and real device/sign-in UAT pending.
+- Enrollment accepts valid tenant members without a shared enrollment password. Confirmed private records supply folder eligibility; unmatched members get a confirmation-pending message. Public manual helpers grant no permissions.
+- Helpers check existing connections and require explicit continuation. Matching/unrelated mappings are kept. Windows signing and Windows/Mac replacement/rollback UAT pending.
+- Portal admin roles are separate from SharePoint ownership. Confirm Hub's admin role privately; importing enrollment records preserves existing roles.
+- Admin currently provides Linda settings and guidance; live NAS/M365 provisioning is not connected. Axon currently provides technical guidance/audit; live health reporting is not connected.
+- Linda launches Microsoft 365. Gemini removed; Teams excluded. Org-wide sharing does not override file permissions. SharePoint retrieval/citations, licences, Outlook and own OneDrive need live verification. No automatic mailbox workflow is running.
+- Daily certificate check installed at 03:17 server time; authentication check succeeded. Certificate expires 2028-10-20T23:24:46Z; live rotation unproved. Website AI trial ends 2026-11-20T22:36:05Z; Microsoft billing and access are separate.
 
-### Access and activation
+## Addresses
 
-| Address | Login / use | Activation status |
-|---|---|---|
-| https://hub.philexcel.com | NAS account; main support administrator username philexcelhub. Staff should use personal NAS accounts. | Remote NAS access reported working; branded shortcut not independently probed |
-| https://data.philexcel.com | Each employee's own Microsoft 365 work account | SharePoint shortcut reported working; content rights depend on assigned permissions |
-| https://enroll.philexcel.com | Registered personal Microsoft 365 account plus supplemental enrollment gate | Deployed for commissioning; Amit will activate for staff later |
-| https://ai.philexcel.com | Registered personal Microsoft 365 account; Open Linda launches Microsoft 365 | Linda is the Philexcel AI Agent; staff activation deferred |
-| https://axon.philexcel.com | Registered Microsoft 365 identity with axon role plus support gate | Commissioning only; activation deferred |
-| https://admin.philexcel.com | Registered Microsoft 365 identity with admin role | Commissioning only; activation deferred |
+| Address | Purpose |
+|---|---|
+| https://hub.philexcel.com | Remote NAS shortcut; personal NAS accounts |
+| https://data.philexcel.com | HUB SharePoint shortcut; own Microsoft 365 sign-in |
+| https://enroll.philexcel.com | Valid member welcome, confirmed NAS folder/drive plan, Windows/Mac setup and manual route |
+| https://ai.philexcel.com | Linda, Philexcel AI Agent; Microsoft sign-in and separate agent access/licensing |
+| https://admin.philexcel.com | Authorised client administrators; live user-management workflow pending |
+| https://axon.philexcel.com | Authorised support role plus support gate; live health workflow pending |
 
-Passwords are deliberately excluded from this public repository. They are provided
-only in the authorised private handover. Supplemental gates do not replace personal
-sign-in. Ian is the currently configured portal admin/support identity; Hub owning
-SharePoint does not automatically register Hub in the portal's private staff file.
+## Next work
 
-All four PHP/Python entry points were deployed account-only. Commit 648774f target
-verification: 22 tests passed. No global server changes, new ports or restart.
-Linda's button opens the Microsoft 365 agent; it is not embedded chat:
-https://m365.cloud.microsoft/chat/?titleId=T_41918509-ad55-6c25-fb32-5c78e09bfeab&source=embedded-builder
-
-Linda org-wide chat sharing is enabled per screenshot. Seven SharePoint libraries
-were confirmed in saved knowledge settings; document retrieval has not passed UAT.
-Outlook was OFF in the last inspected configuration; enabling and testing remains
-unverified. Personal OneDrive search coverage is not confirmed. No unattended
-15-minute email checking or automated sending is implemented. Eligible future
-email requests are restricted to verified philexcel.com staff. No Teams sources.
-
-Gemini was removed in commit 9433a50. Microsoft 365 Copilot Business trial was
-assigned to Hub; other seat assignments and recurring billing state are unverified.
-Do not share Hub's licence/session as a substitute for individual staff access.
-
-### SharePoint memberships applied and reported successful
-
-- Hub: HUB Owners; Full Control on all seven HUB libraries.
-- Ian's verified commissioning account: Executive and Company-Shared.
-- Executive group: Contribute on all seven libraries (content read/write, not
-  administrator rights).
-- Camille: Marketing and Company-Shared.
-- Jhojie: Finance-Purchasing and Company-Shared.
-- James: Engineering and Company-Shared.
-- Administration-HR and Administration-Marketing groups remain empty.
-- Other staff mappings require confirmed names/email identities. Do not guess.
-- Executive & Board remains excluded; its permissions were not modified.
-
-Existing direct grants, sharing links and unique item permissions still require
-review and regular-user allow/deny tests. NAS memberships and SharePoint groups
-are independent. Portal AI settings do not enforce the external agent's scope.
-
-### Certificate and trial
-
-Account-only daily renewal check installed at 03:17 server time; authentication
-check succeeded. Certificate expiry remains 2028-10-20T23:24:46Z. Live rotation
-has not been proved. See portal/cpanel/CERTIFICATE-RENEWAL.md.
-Website trial ends 2026-11-20T22:36:05Z. It does not revoke direct Microsoft 365
-agent access or cancel Microsoft's trial/subscription. Manage those separately.
-
-### Remaining work
-
-Staff mapping update: 18 staff are now confirmed; fourteen newly confirmed
-memberships await application. See the resume checklist and authoritative mapping
-below; earlier statements about fifteen unconfirmed staff are historical.
-
-
-Confirm staff mapping and licences; test Linda retrieval and department denials;
-disable Teams in Microsoft UI; verify Outlook and own OneDrive searches; implement
-and test personal-context email automation; sign/test enrollment downloads; extend
-the private portal register to approved staff; connect live administration/support
-only when commissioned; complete sync reverse-direction and restore UAT, independent
-backup, NAS security/alerts and approved old-drive cutover.
-
-## Resume checklist — completed and pending
-
-### Completed with reported evidence
-- Spencer: initial Marketing NAS pilot, create/upload/delete and restore test;
-  original attribution and notes preserved.
-- Amit: 19 first-name NAS staff accounts, professional department groups, own
-  department plus Company Shared permissions, Hub administrator email and branding.
-- Representative Tess (HR) and James (Engineering) SMB own/shared read/write tests
-  passed; other department shares denied in the pasted tests.
-- Seven SharePoint HUB libraries created with unique permissions and versioning;
-  Board excluded. Seven bidirectional Cloud Sync tasks reported configured.
-  Company Shared NAS-to-cloud test file confirmed, not full sync UAT.
-- QuickConnect remote NAS access and data.philexcel.com SharePoint shortcut reported
-  working. Four account-only portal entry points published.
-- Certificate-based portal Microsoft authentication, private configuration and
-  daily account-only renewal check installed. Live certificate rotation not tested.
-- Gemini removed; Microsoft 365 Linda agent created, org-wide chat sharing enabled,
-  seven SharePoint sources visible in saved settings, portal launch link deployed.
-- Server tests at commit 648774f: 22 passed. Later documentation/UI wording commits
-  need pulling; no later target test result has been supplied.
-- Confirmed SharePoint accounts assigned: Hub owner; Ian executive; Camille
-  Marketing; Jhojie Finance-Purchasing; James Engineering. Executive group granted
-  Contribute across all seven libraries; Owners Full Control.
-- Teams excluded by Amit's instruction. Teams UI switch was already OFF in the last
-  inspected screenshot; ensure it stays off and remove remaining instruction text.
-
-### Updated staff mapping checkpoint
-
-See [Confirmed staff account mapping](CONFIRMED-STAFF-MAPPING-2026-10-22.md) for the complete authoritative 18-person list.
-
-Amit supplied fourteen additional email mappings. Together with Ian, Camille,
-Jhojie and James, 18 staff identities are confirmed. Hub is the separate
-administrator. These fourteen new mappings have NOT yet been applied to
-SharePoint groups or the private portal register.
-
-Correction: jsoriano@philexcel.com is Jhojie, not Jannie. Jannie is not a confirmed
-separate person in the current list. The existing NAS account Jannie is held
-unchanged pending clarification; do not delete or reassign it.
-Anne uses existing NAS login Ann; Evann uses existing NAS login Evain.
-No account rename has been performed.
-
-Only the four previously applied staff memberships and Hub owner access are
-verified. HR and Administration-Marketing remain empty until the new memberships
-are applied. Other directory accounts and additional executives require explicit
-approval. Enrollment development and further membership changes are paused while
-the full list is finalised. Local enrollment changes are not committed or deployed.
-
-### Next session order
-1. Finalise the confirmed 18-person roster, clarify the held Jannie NAS account,
-   verify the fourteen new directory matches and reconcile additional accounts and
-   executive approvals. When resumed, apply approved department and Company Shared
-   memberships and the private portal register.
-2. Audit all seven library grants, direct file/folder grants and sharing links.
-   Test one regular user's own/shared success and cross-department denial.
-3. Linda: publish latest short instructions, keep Teams off, verify SharePoint
-   retrieval/citations in a fresh chat. Previous responses claimed no source access;
-   retrieval is not yet proved despite configured sources.
-4. Verify appropriate Copilot licences per participating user; only Hub's trial
-   assignment is confirmed. Review trial end/recurring billing separately.
-5. Enable/test Outlook knowledge and confirm own OneDrive scope if required.
-   Owner knowledge settings must not expose another employee's personal sources.
-6. Implement separate mailbox workflow for 15-minute checks, exact philexcel.com
-   sender filtering, trusted identity checks, personal-context authorisation,
-   protected source links, recipient controls, draft commissioning and audit.
-   No email monitor or automatic reply service currently runs.
-7. Enroll: populate private staff object-ID/NAS mapping; sign Windows installer,
-   test Windows/Mac and phone instructions, backup/restore existing mappings and
-   obtain old Z: cutover approval. No indiscriminate unmapping.
-8. Admin/Axon: distinguish current guidance/settings from unconnected live NAS/
-   SharePoint provisioning and health reporting. Add only authorised functions.
-9. Complete all seven sync mappings' reverse-edit/conflict/delete/restore UAT,
-   recycle-bin admin restore, independent backup, NAS MFA/alerts/UPS/disk checks.
-10. Verify branded NAS shortcut and origin SSL renewal, renewal-job health and
-    controlled certificate rotation. Keep all changes within philexcel account.
-11. Activate four portals for staff only after the above relevant checks. Portal
-    and direct Microsoft agent access/trial controls remain separate.
+See PORTAL-IMPLEMENTATION-HANDOVER-2026-10-22.md. Priority: enrollment deployment/private register/device UAT; then admin provisioning; then Axon health.
+Keep all changes inside the philexcel account. No global packages, web-server changes, service restarts, new ports or other-domain changes. Preserve main-domain redirect, data shortcut, email DNS and origin SSL.
 
 ## Earlier commissioning record (historical)
 
@@ -286,3 +157,5 @@ configuration for rollback; never expose private keys in Git/email/public_html.
    confuse mocked tests with real Microsoft/Gemini/browser UAT.
 7. Sign enrollment scripts and complete PC/Mac/phone UAT, old Z: cutover approval,
    seven sync/restore tests, NAS security/alerts/UPS and independent backup.
+
+

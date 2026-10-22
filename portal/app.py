@@ -100,6 +100,14 @@ def callback():
  if claims.get('tid', '').lower()!=TENANT.lower() or not claims.get('oid'): abort(403)
  session['oid']=claims['oid']
  session['name']=claims.get('name', 'Staff member')
+ if request.host.split('.')[0]=='enroll':
+  access=result.get('access_token')
+  if not access: abort(403, 'Microsoft profile verification is unavailable. Use the manual setup guide.')
+  profile=graph('/me?$select=id,displayName,userPrincipalName,mail,department,userType',access)
+  if profile.get('id')!=claims['oid'] or profile.get('userType')!='Member':
+   abort(403, 'Enrollment sign-in is for Philexcel organisation members. Use the manual setup guide if you have an approved NAS account.')
+  session['enroll_member']=True
+  session['enroll_profile']={key:profile.get(key,'') for key in ('displayName','userPrincipalName','mail','department')}
  session['cache']=cache.serialize()
  session['csrf']=secrets.token_urlsafe(32)
  app.session_interface.regenerate(session)
@@ -132,10 +140,49 @@ def home():
  mode={'enroll':'enroll','axon':'axon','admin':'admin'}.get(request.host.split('.')[0], 'ai')
  return redirect('/'+mode)
 
+def enrollment_view():
+ # Only a server-managed NAS register supplies eligibility. Directory department
+ # and form fields never grant NAS or SharePoint rights.
+ p=records().get(session.get('oid'),{}).copy()
+ approved=bool(p.get('enabled') and re.fullmatch(r'[A-Za-z0-9._-]+',p.get('nas_username','')) and
+               p.get('departments') and set(p['departments']).issubset(DEPARTMENTS))
+ libraries=(sorted(set(DEPARTMENTS)|{'Company-Shared'}) if p.get('nas_access_level')=='executive' else allowed_libraries(p)) if approved else []
+ plan=[{'library':name,'share':DEPARTMENTS[name][0],'letter':DEPARTMENTS[name][1]} for name in libraries if name in DEPARTMENTS]
+ if approved: plan.append({'library':'Company Shared','share':'CompanyShared','letter':'Z'})
+ return p,approved,plan
+
+@app.get('/enroll')
+def enrollment():
+ session.setdefault('csrf',secrets.token_urlsafe(32))
+ if not session.get('oid'):
+  return render_template('enroll.html',signed_in=False,csrf=session['csrf'],nas=os.environ.get('NAS_HOST',''),departments=DEPARTMENTS)
+ if not session.get('enroll_member'):
+  return redirect(url_for('login'))
+ p,approved,plan=enrollment_view()
+ profile=session.get('enroll_profile',{})
+ return render_template('enroll.html',signed_in=True,approved=approved,plan=plan,
+  name=profile.get('displayName') or session.get('name'),email=profile.get('mail') or profile.get('userPrincipalName'),
+  department=', '.join(p.get('departments',[])) if approved else 'Awaiting administrator confirmation',
+  nas_user=p.get('nas_username','') if approved else '',nas=os.environ.get('NAS_HOST',''),
+  csrf=session['csrf'],departments=DEPARTMENTS)
+
+@app.get('/enroll/manual')
+def enrollment_manual():
+ session.setdefault('csrf',secrets.token_urlsafe(32))
+ return render_template('enroll_manual.html',csrf=session['csrf'],nas=os.environ.get('NAS_HOST',''),departments=DEPARTMENTS)
+
+@app.get('/enroll/check/<platform>')
+def enrollment_check(platform):
+ files={'windows':'Check-Drives-Windows.ps1','mac':'Check-Drives-Mac.command'}
+ if platform not in files: abort(404)
+ filename=files[platform]
+ return Response((BASE/'downloads'/filename).read_text(),mimetype='text/plain',
+  headers={'Content-Disposition':'attachment; filename='+filename})
+
 @app.route('/<mode>', methods=['GET','POST'])
 @protected()
 def portal(mode):
- if mode not in ('ai','enroll','admin','axon','data'): abort(404)
+ if mode not in ('ai','admin','axon','data'): abort(404)
  p=person()
  if mode in ('admin','axon') and mode not in p.get('roles', []): abort(403)
  gate={'enroll':'ENROLL_GATE_HASH','axon':'AXON_GATE_HASH','data':'DATA_GATE_HASH'}.get(mode)
@@ -179,14 +226,30 @@ def me():
  return jsonify(name=session['name'], libraries=allowed_libraries(person()), ai_libraries=ai_libraries(person()), trial=trial_state())
 
 @app.get('/download/<platform>')
-@protected()
 def download(platform):
- if not session.get('gate_enroll'): abort(403)
- p=person(); nas=os.environ.get('NAS_HOST', '')
+ if not session.get('oid'): abort(401)
+ if not session.get('enroll_member'): abort(403)
+ p,approved,plan=enrollment_view()
+ if not approved: abort(403, 'Your NAS account and department need administrator confirmation. Use the manual setup guide.')
+ return setup_download(platform,p)
+
+@app.post('/enroll/manual/download')
+@limiter.limit('10 per minute')
+def manual_setup_download():
+ # Self-entered values customise a helper, never an access grant or staff record.
+ department=request.form.get('department','')
+ name=request.form.get('name','').strip()
+ if request.form.get('confirmed')!='yes' or department not in DEPARTMENTS or not 1<=len(name)<=100: abort(400)
+ p={'enabled':True,'departments':[department],'nas_username':request.form.get('nas_username','')}
+ return setup_download(request.form.get('platform',''),p,manual=True)
+
+def setup_download(platform,p,manual=False):
+ nas=os.environ.get('NAS_HOST', '')
  if not re.fullmatch(r'[A-Za-z0-9.-]+', nas): abort(503, 'NAS address is not configured.')
  user=p.get('nas_username', '')
  if not re.fullmatch(r'[A-Za-z0-9._-]+', user): abort(503, 'Your NAS account needs confirmation.')
- selected=[DEPARTMENTS[x] for x in allowed_libraries(p) if x in DEPARTMENTS]+[('CompanyShared','Z')]
+ scopes=sorted(DEPARTMENTS) if p.get('nas_access_level')=='executive' else allowed_libraries(p)
+ selected=[DEPARTMENTS[x] for x in scopes if x in DEPARTMENTS]+[('CompanyShared','Z')]
  if platform=='windows':
   body=(BASE/'downloads/Enroll-Windows.ps1').read_text().replace('__NAS__',nas).replace('__USER__',user)
   body=body.replace('__MAPS__', '\n'.join("    @{Share='%s'; Letter='%s'}" % pair for pair in selected))
@@ -195,6 +258,9 @@ def download(platform):
   body=(BASE/'downloads/Enroll-Mac.command').read_text().replace('__NAS__',nas).replace('__USER__',user)
   body=body.replace('__SHARES__', ' '.join('"'+x[0]+'"' for x in selected)); filename='Philexcel-Mac-Setup.command'
  else: abort(404)
+ if manual:
+  notice='# Manual helper: department is self-declared, not verified. NAS permissions decide access.\n'
+  body=body.replace('#!/bin/bash\n','#!/bin/bash\n'+notice,1) if platform=='mac' else notice+body
  # Never embed portal gates, cloud tokens or a NAS password in downloads.
  return Response(body, mimetype='text/plain', headers={'Content-Disposition':'attachment; filename='+filename})
 
@@ -230,3 +296,4 @@ def error(e):
   return render_template('error.html',message=e.description),e.code
  # No provider payloads, tokens, API keys or document excerpts in errors/logs.
  return jsonify(answer='The service could not complete this request. Please contact Axon support.'),502
+

@@ -6,6 +6,11 @@ $NasUser = '__USER__'
 $Mappings = @(
 __MAPS__
 )
+Write-Host 'Existing network connections (shown only on this device):'
+Get-SmbMapping -ErrorAction SilentlyContinue | Format-Table LocalPath,RemotePath,Status
+Get-PSDrive -PSProvider FileSystem | Format-Table Name,Root,DisplayRoot
+$Choice = Read-Host 'Type MAP to continue, or press Enter to finish without changes'
+if ($Choice -cne 'MAP') { return }
 if (-not (Test-NetConnection $NasHost -Port 445 -InformationLevel Quiet -WarningAction SilentlyContinue)) {
     throw 'The office file server cannot be reached. Connect to office Wi-Fi/LAN, or use https://data.philexcel.com while away.'
 }
@@ -14,6 +19,12 @@ $Mappings | Format-Table Share,Letter
 $Replace = @()
 foreach ($Map in $Mappings) {
     $Map.Remote = "\\$NasHost\$($Map.Share)"
+    $SameTarget = @(Get-SmbMapping -ErrorAction SilentlyContinue | Where-Object { $_.RemotePath -ieq $Map.Remote })
+    if ($SameTarget.Count -gt 0) {
+        Write-Host "$($Map.Share) already has a mapping at $($SameTarget[0].LocalPath). Keeping it; no duplicate added."
+        $Map.Skip=$true
+        continue
+    }
     $Existing = Get-SmbMapping -LocalPath "$($Map.Letter):" -ErrorAction SilentlyContinue
     $Drive = Get-PSDrive -Name $Map.Letter -ErrorAction SilentlyContinue
     if ($Existing -and $Existing.RemotePath -ieq $Map.Remote) { $Map.Skip=$true; continue }
@@ -25,6 +36,11 @@ foreach ($Map in $Mappings) {
         if ($Answer -cne "REPLACE $($Map.Letter)") { throw 'Setup cancelled. Existing drives have been kept.' }
         $Replace += [pscustomobject]@{Letter=$Map.Letter; Remote=$Existing.RemotePath}
     }
+}
+if (@($Mappings | Where-Object { -not $_.Skip }).Count -eq 0) {
+    Write-Host 'All requested folders already have mappings. No changes made.'
+    Read-Host 'Press Enter to close'
+    return
 }
 $Credential = Get-Credential -UserName $NasUser -Message 'Enter your personal Philexcel NAS password. This may differ from your email password.'
 if (-not $Credential) { throw 'Setup cancelled.' }
@@ -44,7 +60,7 @@ ConvertTo-Json -InputObject @($Replace) | Set-Content -LiteralPath $Backup -Enco
 $Created = @()
 try {
     foreach ($Map in $Mappings) {
-        if ($Map.Skip) { Write-Host "$($Map.Letter): is already ready."; continue }
+        if ($Map.Skip) { Write-Host "$($Map.Letter): already has a mapping (kept unchanged)."; continue }
         $Old = $Replace | Where-Object Letter -eq $Map.Letter
         if ($Old) { Remove-SmbMapping -LocalPath "$($Map.Letter):" -UpdateProfile -Confirm:$false -ErrorAction Stop }
         New-PSDrive -Name $Map.Letter -PSProvider FileSystem -Root $Map.Remote -Persist -Scope Global -Credential $Credential | Out-Null
@@ -65,3 +81,4 @@ try {
 Write-Host 'Done. Open File Explorer > This PC. Windows may ask for your NAS password again after restarting.'
 Write-Host 'Away from the office? Open https://data.philexcel.com and use your Microsoft 365 sign-in.'
 Read-Host 'Press Enter to close'
+
