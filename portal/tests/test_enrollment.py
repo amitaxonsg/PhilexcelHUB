@@ -22,11 +22,11 @@ def test_public_guides_and_read_only_checks(server):
  # The selected installer is account-local, not part of the Git checkout.
  # On the cPanel server it exists (200); on CI it may be absent (503).
  from pathlib import Path
- selected=Path('/home/philexcel/Philexcel-NAS-Setup-Repair-UAT-v5.6-AXON.bat')
+ selected=Path('/home/philexcel/Philexcel-NAS-Setup-Repair-UAT-v5.7-DSM-Access-Sync.bat')
  r=client.get('/enroll/installer',base_url=BASE)
  if selected.is_file() and selected.stat().st_size:
   assert r.status_code==200
-  assert r.headers['Content-Disposition'].endswith('Philexcel-NAS-Setup-Repair-UAT-v5.6-AXON.bat')
+  assert r.headers['Content-Disposition'].endswith('Philexcel-NAS-Setup-Repair-UAT-v5.7-DSM-Access-Sync.bat')
   assert r.data==selected.read_bytes()
  else:
   assert r.status_code==503
