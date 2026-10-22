@@ -5,6 +5,82 @@ SPENCER-HANDOVER.md and the 21 October Marketing pilot in NAS-HANDOVER-2026-10-2
 Results are from Amit's pasted terminal output or explicitly stated confirmations;
 no independent live-site certification is implied.
 
+## Current handover checkpoint — 22 October 2026
+
+This checkpoint supersedes earlier pending/development statements below.
+Teams is not used and is removed from Linda's approved scope. Turn OFF Teams in
+Linda's Microsoft 365 Knowledge settings and remove Teams from her instructions;
+this UI change has not been independently confirmed. No Teams licence purchase
+or deployment is planned.
+
+### Access and activation
+
+| Address | Login / use | Activation status |
+|---|---|---|
+| https://hub.philexcel.com | NAS account; main support administrator username philexcelhub. Staff should use personal NAS accounts. | Remote NAS access reported working; branded shortcut not independently probed |
+| https://data.philexcel.com | Each employee's own Microsoft 365 work account | SharePoint shortcut reported working; content rights depend on assigned permissions |
+| https://enroll.philexcel.com | Registered personal Microsoft 365 account plus supplemental enrollment gate | Deployed for commissioning; Amit will activate for staff later |
+| https://ai.philexcel.com | Registered personal Microsoft 365 account; Open Linda launches Microsoft 365 | Linda is the Philexcel AI Agent; staff activation deferred |
+| https://axon.philexcel.com | Registered Microsoft 365 identity with axon role plus support gate | Commissioning only; activation deferred |
+| https://admin.philexcel.com | Registered Microsoft 365 identity with admin role | Commissioning only; activation deferred |
+
+Passwords are deliberately excluded from this public repository. They are provided
+only in the authorised private handover. Supplemental gates do not replace personal
+sign-in. Ian is the currently configured portal admin/support identity; Hub owning
+SharePoint does not automatically register Hub in the portal's private staff file.
+
+All four PHP/Python entry points were deployed account-only. Commit 648774f target
+verification: 22 tests passed. No global server changes, new ports or restart.
+Linda's button opens the Microsoft 365 agent; it is not embedded chat:
+https://m365.cloud.microsoft/chat/?titleId=T_41918509-ad55-6c25-fb32-5c78e09bfeab&source=embedded-builder
+
+Linda org-wide chat sharing is enabled per screenshot. Seven SharePoint libraries
+were confirmed in saved knowledge settings; document retrieval has not passed UAT.
+Outlook was OFF in the last inspected configuration; enabling and testing remains
+unverified. Personal OneDrive search coverage is not confirmed. No unattended
+15-minute email checking or automated sending is implemented. Eligible future
+email requests are restricted to verified philexcel.com staff. No Teams sources.
+
+Gemini was removed in commit 9433a50. Microsoft 365 Copilot Business trial was
+assigned to Hub; other seat assignments and recurring billing state are unverified.
+Do not share Hub's licence/session as a substitute for individual staff access.
+
+### SharePoint memberships applied and reported successful
+
+- Hub: HUB Owners; Full Control on all seven HUB libraries.
+- Ian's verified commissioning account: Executive and Company-Shared.
+- Executive group: Contribute on all seven libraries (content read/write, not
+  administrator rights).
+- Camille: Marketing and Company-Shared.
+- Jhojie: Finance-Purchasing and Company-Shared.
+- James: Engineering and Company-Shared.
+- Administration-HR and Administration-Marketing groups remain empty.
+- Other staff mappings require confirmed names/email identities. Do not guess.
+- Executive & Board remains excluded; its permissions were not modified.
+
+Existing direct grants, sharing links and unique item permissions still require
+review and regular-user allow/deny tests. NAS memberships and SharePoint groups
+are independent. Portal AI settings do not enforce the external agent's scope.
+
+### Certificate and trial
+
+Account-only daily renewal check installed at 03:17 server time; authentication
+check succeeded. Certificate expiry remains 2028-10-20T23:24:46Z. Live rotation
+has not been proved. See portal/cpanel/CERTIFICATE-RENEWAL.md.
+Website trial ends 2026-11-20T22:36:05Z. It does not revoke direct Microsoft 365
+agent access or cancel Microsoft's trial/subscription. Manage those separately.
+
+### Remaining work
+
+Confirm staff mapping and licences; test Linda retrieval and department denials;
+disable Teams in Microsoft UI; verify Outlook and own OneDrive searches; implement
+and test personal-context email automation; sign/test enrollment downloads; extend
+the private portal register to approved staff; connect live administration/support
+only when commissioned; complete sync reverse-direction and restore UAT, independent
+backup, NAS security/alerts and approved old-drive cutover.
+
+## Earlier commissioning record (historical)
+
 ## Addresses and hosting
 
 | Address | Purpose | Current evidence |
