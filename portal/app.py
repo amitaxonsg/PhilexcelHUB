@@ -161,13 +161,18 @@ def enrollment():
 @app.get('/enroll/installer')
 @limiter.limit('30 per minute')
 def enrollment_installer():
- # Generic local-only UAT assistant. The NAS enforces share permissions.
- # Never publish the internal staff lookup batch here.
- filename = 'Philexcel-NAS-Setup-Repair.bat'
- return Response((BASE/'downloads'/filename).read_bytes(),
-  mimetype='application/octet-stream',
-  headers={'Content-Disposition':'attachment; filename='+filename,
-           'X-Content-Type-Options':'nosniff'})
+ # Serve the administrator-selected, account-local AXON UAT v5.6 release.
+ # Never fall back to a different installer if the selected file is unavailable.
+ # Access to this public endpoint does not establish NAS access rights.
+ filename = 'Philexcel-NAS-Setup-Repair-UAT-v5.6-AXON.bat'
+ installer = Path('/home/philexcel') / filename
+ if not installer.is_file() or not installer.stat().st_size:
+  abort(503, 'The approved Windows installer is temporarily unavailable. Contact AXON support.')
+ response = Response(installer.read_bytes(), mimetype='application/octet-stream',
+  headers={'Content-Disposition': 'attachment; filename=' + filename,
+           'X-Content-Type-Options': 'nosniff'})
+ response.headers['Content-Length'] = str(installer.stat().st_size)
+ return response
 
 @app.get('/enroll/manual')
 def enrollment_manual():
