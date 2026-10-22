@@ -64,3 +64,8 @@ See [Philexcel Daily Progress and UAT Handover](docs/PHILEXCEL-DAILY-PROGRESS-20
 - **Security open items:** Public UAT installer may embed staff directory; audit before distributing broadly. Check per-user effective share/Recycle Bin permissions, NAS relocation, Cloud Sync reverse/conflict/restore and independent backup.
 
 Historical preliminary status sections above are preserved as chronology, not a statement of current acceptance.
+
+
+### Follow-up confirmed UAT (22 October 2026)
+
+Spencer subsequently confirmed **Camille's delegated DSM local user/group administration** and **the v5.7 DSM group-change enrollment mapping test** as tested. These two items supersede their earlier pending entries; see the [updated daily handover](docs/PHILEXCEL-DAILY-PROGRESS-2026-10-22.md). Neither confirmation removes the native DSM group/user deletion capability, adds Camille's requested file read-only ACLs, or proves full rollout readiness. Latest live v5.7 download checksum and post-commit server deployment checks remain separately outstanding.
