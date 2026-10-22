@@ -1,3 +1,15 @@
 *{box-sizing:border-box}body{margin:0;font:16px system-ui;background:#f3f6f3;color:#17382c}header{background:#173e31;color:white;padding:24px 6%;display:flex;justify-content:space-between;gap:20px}main{max-width:1050px;margin:auto;padding:36px 22px}h1{font-size:38px;margin:0 0 16px}h2{margin-top:28px}p,li{line-height:1.65}a{color:#206146}header a{color:white}.badge{background:#fff0bd;color:#614b0c;padding:8px 14px;border-radius:22px}.card{background:white;border:1px solid #d8e2d9;border-radius:14px;padding:24px;margin:18px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}button,.button{display:inline-block;background:#1d5c42;color:white;border:0;border-radius:8px;padding:12px 18px;font:inherit;text-decoration:none;cursor:pointer}button:disabled{opacity:.5;cursor:default}input,select,textarea{font:inherit;padding:12px;border:1px solid #b8cabd;border-radius:8px;max-width:100%}textarea{width:100%;min-height:100px}label{display:block;margin:16px 0 8px}.answer{white-space:pre-wrap;line-height:1.65}footer{padding:24px;font-size:14px;color:#526758}code{overflow-wrap:anywhere}.muted{color:#5a6d61}
 
 .workspace{background:white;color:#173e31;border:1px solid #b8cabd;text-align:left}.workspace[aria-pressed="true"]{border:2px solid #206146;background:#e6f0e8}
+
+/* Philexcel office enrollment — two-column, accessible layout */
+.enroll-hero{background:#173e31;color:#fff;border-radius:16px;padding:32px;margin-bottom:22px}
+.enroll-hero h1{max-width:780px;line-height:1.13}
+.enroll-hero p{max-width:810px}
+.enroll-hero .eyebrow{color:#cfe7dc;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.enroll-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.enroll-columns .card{margin:0}
+.enroll-columns table{width:100%;border-collapse:collapse;font-size:.86rem}
+.enroll-columns th,.enroll-columns td{padding:8px 6px;text-align:left;border-bottom:1px solid #d8e2d9}
+.enroll-guide-img{display:block;max-width:100%;height:auto;border:1px solid #d8e2d9;border-radius:8px}
+@media(max-width:760px){.enroll-columns{grid-template-columns:1fr}.enroll-hero{padding:22px}.enroll-hero h1{font-size:30px}}
